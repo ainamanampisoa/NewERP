@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - New App</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/base-min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/home.min.css" asp-append-version="true" />
+   <!-- Styles -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.css" rel="stylesheet">
+
+<!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.2.0/fullcalendar.min.js"></script>
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>ERP<span>Next</span></h2>
+            </div>
+            <nav class="sidebar-nav">
+
+                <a asp-controller="Login" asp-action="Accueil" class="nav-item">
+                    <i class="nav-icon fas fa-home"></i>
+                    Accueil
+                </a>
+
+                <a asp-controller="Employe" asp-action="Liste" class="nav-item">
+                    <i class="nav-icon fas fa-people-carry"></i>
+                    Employee
+                </a>
+                <a asp-controller="Commande" asp-action="Index" class="nav-item">
+                    <i class="nav-icon fas fa-shopping-cart"></i>
+                    Bon de Commandes
+                </a>
+
+                <a asp-controller="CommandeStatut" asp-action="Index" class="nav-item">
+                    <i class="nav-icon fas fa-shopping-cart"></i>
+                    Bon de Commandes avec Statut
+                </a>
+                
+                <a asp-controller="Facture" asp-action="Index" class="nav-item">
+                    <i class="nav-icon fas fa-file-invoice"></i>
+                    Factures
+                </a>
+
+                <a asp-controller="Facture" asp-action="Calendar" class="nav-item">
+                    <i class="nav-icon fas fa-calendar"></i>
+                    Calendrier
+                </a>
+
+                <a asp-controller="Settings" asp-action="Index" class="nav-item">
+                    <i class="nav-icon fas fa-cog"></i>
+                    Paramètres
+                </a>
+                
+                <a asp-controller="Login" asp-action="Logout" class="nav-item">
+                    <i class="nav-icon fas fa-right-from-bracket"></i>
+                    Deconnexion
+                </a>
+
+            </nav>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="main-content">
+            @RenderBody()
+        </main>
+    </div>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

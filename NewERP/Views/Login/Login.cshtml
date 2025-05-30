@@ -1,0 +1,77 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <!-- Bootstrap CSS CDN (version light) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 0.5rem;
+            font-weight: 500;
+            background-color: #3498db;
+            border: none;
+        }
+        .btn-login:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2 class="login-header">Connexion ERPNext</h2>
+        
+        <form asp-controller="Login" asp-action="Connexion" method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">Nom d'utilisateur :</label>
+                <input type="text" class="form-control" id="username" name="Username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Mot de passe :</label>
+                <input type="password" class="form-control" id="password" name="Password" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-login">Se connecter</button>
+            
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewBag.Error
+                </div>
+            }
+        </form>
+    </div>
+
+    <!-- Bootstrap Bundle JS (optionnel, seulement si besoin de fonctionnalités JS) -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
+</body>
+</html>

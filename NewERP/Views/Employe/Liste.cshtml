@@ -1,0 +1,41 @@
+@model List<NewERP.Models.Employe>
+
+@{
+    ViewData["Title"] = "Liste des employees";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link href="~/css/fournisseurs.css" rel="stylesheet" />
+}
+
+<h2>Liste des employés</h2>
+
+<div class="fournisseurs-container">
+
+@if (Model != null && Model.Any())
+{
+    <div class="table-responsive">
+        <table class="devis-table">
+            <tr>
+                <th>Nom</th>
+                <th>Statut</th>
+                <th>Département</th>
+            </tr>
+            @foreach (var emp in Model)
+            {
+                <tr>
+                    <td>@emp.employee_name</td>
+                    <td>@emp.status</td>
+                    <td>@emp.department</td>
+                </tr>
+            }
+        </table>
+    </div>  <!-- <-- ici, tu avais ouvert un <div> mais pas fermé correctement -->
+}
+else
+{
+    <p>Aucun employé trouvé.</p>
+}
+
+</div>  <!-- fermeture du div fournisseurs-container -->

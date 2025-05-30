@@ -1,0 +1,197 @@
+/* Variables modernes révisées */
+:root {
+  --primary: #2a4365;        /* Couleur principale plus affirmée */
+  --primary-light: #ebf4ff;  /* Fond clair */
+  --secondary: #f72585;
+  --accent: #4cc9f0;         /* Renommé 'accent' pour usage plus cohérent */
+  --warning: #f8961e;
+  --danger: #ef233c;
+  --light: #f8f9fa;
+  --dark: #1a202c;           /* Noir plus profond */
+  --gray: #718096;
+  
+  --sidebar-width: 250px;
+  --header-height: 80px;     /* Augmenté pour meilleure hiérarchie */
+  --transition: cubic-bezier(0.4, 0, 0.2, 1) 0.15s; /* Transition plus naturelle */
+}
+
+/* Reset amélioré */
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--primary-light);
+  color: var(--dark);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Layout principal révisé */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background: var(--primary-light);
+}
+
+/* Sidebar améliorée */
+.sidebar {
+  width: var(--sidebar-width);
+  background: white;
+  position: fixed;
+  height: 100vh;
+  z-index: 100;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  background: var(--primary);
+  color: white;
+}
+
+.sidebar-header h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.5px;
+}
+
+.sidebar-header h2 span {
+  font-weight: 300;
+  opacity: 0.8;
+  margin-left: 0.5rem;
+}
+
+.sidebar-nav {
+  padding: 1rem 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  color: var(--gray);
+  text-decoration: none;
+  transition: var(--transition);
+  position: relative;
+}
+
+.nav-item:hover {
+  background: rgba(42, 67, 101, 0.03);
+  color: var(--primary);
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: var(--primary);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.nav-item:hover::before {
+  opacity: 1;
+}
+
+.nav-icon {
+  margin-right: 1rem;
+  width: 24px;
+  font-size: 1.1rem;
+}
+
+/* Contenu principal amélioré */
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  padding: 2rem 3rem;
+  transition: var(--transition);
+  max-width: 1400px;
+}
+
+/* Cartes modernes révisées */
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+  transform: translateY(-2px);
+}
+
+.card-title {
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Tableau amélioré */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.data-table th {
+  background-color: var(--primary);
+  color: white;
+  padding: 1rem;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+}
+
+.data-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  background: white;
+}
+
+.data-table tr:not(:first-child):hover td {
+  background: rgba(42, 67, 101, 0.02);
+}
+
+/* Responsive amélioré */
+@media (max-width: 992px) {
+  .main-content {
+    padding: 1.5rem;
+    margin-left: 0;
+  }
+  
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-content {
+    padding: 1rem;
+  }
+  
+  .card {
+    padding: 1.25rem;
+  }
+}
+
+/* Utilitaires supplémentaires */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}

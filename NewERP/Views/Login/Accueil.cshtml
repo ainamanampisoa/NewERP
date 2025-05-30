@@ -1,0 +1,125 @@
+@{
+    ViewData["Title"] = "Accueil";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link href="~/css/accueil.css" rel="stylesheet" />
+}
+
+<div class="erp-home-container">
+    <!-- Bannière de bienvenue -->
+    <section class="welcome-banner">
+        <div class="welcome-content">
+            <div class="welcome-header">
+                <h1>Bienvenue sur <span class="erp-name">HRManager Pro</span></h1>
+                <div class="status-ribbon">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Dernière mise à jour : 15 min</span>
+                </div>
+            </div>
+            
+            <div class="welcome-actions">
+                <div class="action-tile">
+                    <div class="action-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Employés</h3>
+                    <p>Gérer les fiches des employés</p>
+                </div>
+
+                <div class="action-tile">
+                    <div class="action-icon">
+                        <i class="fas fa-euro-sign"></i>
+                    </div>
+                    <h3>Salaires</h3>
+                    <p>Gestion des paies et rémunérations</p>
+                </div>
+
+                <div class="action-tile">
+                    <div class="action-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Analytics</h3>
+                    <p>Statistiques RH et indicateurs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistiques rapides -->
+    <div class="quick-stats">
+        <div class="stat-card">
+            <i class="fas fa-user-tie"></i>
+            <div>
+                <span class="stat-value">128</span>
+                <span class="stat-label">Employés actifs</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-money-bill-wave"></i>
+            <div>
+                <span class="stat-value">€386K</span>
+                <span class="stat-label">Masse salariale mensuelle</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-birthday-cake"></i>
+            <div>
+                <span class="stat-value">7</span>
+                <span class="stat-label">Anniversaires ce mois</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accès rapide -->
+    <section class="quick-access">
+        <h2><i class="fas fa-rocket"></i> Accès rapide</h2>
+        <div class="access-grid">
+            <a href="/employes" class="access-card">
+                <i class="fas fa-id-card"></i>
+                <span>Fiches employés</span>
+            </a>
+            <a href="/salaires" class="access-card">
+                <i class="fas fa-calculator"></i>
+                <span>Calculer les salaires</span>
+            </a>
+            <a href="/conges" class="access-card">
+                <i class="fas fa-umbrella-beach"></i>
+                <span>Gérer les congés</span>
+            </a>
+            <a href="/performances" class="access-card">
+                <i class="fas fa-medal"></i>
+                <span>Évaluations</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Activité récente -->
+    <section class="recent-activity">
+        <h2><i class="fas fa-history"></i> Activité récente</h2>
+        <div class="activity-timeline">
+            <div class="activity-item">
+                <i class="fas fa-money-check activity-icon"></i>
+                <div class="activity-content">
+                    <span>Paie de Novembre validée</span>
+                    <small>Il y a 2 heures</small>
+                </div>
+            </div>
+            <div class="activity-item">
+                <i class="fas fa-user-plus activity-icon"></i>
+                <div class="activity-content">
+                    <span>Nouvel employé recruté</span>
+                    <small>Hier à 14:30</small>
+                </div>
+            </div>
+            <div class="activity-item">
+                <i class="fas fa-chart-bar activity-icon"></i>
+                <div class="activity-content">
+                    <span>Rapport salarial généré</span>
+                    <small>28/11/2023</small>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
