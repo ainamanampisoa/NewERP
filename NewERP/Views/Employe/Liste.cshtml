@@ -1,7 +1,7 @@
 @model List<NewERP.Models.Employe>
 
 @{
-    ViewData["Title"] = "Liste des employees";
+    ViewData["Title"] = "Liste des employés";
     Layout = "_Layout";
 }
 
@@ -9,33 +9,128 @@
     <link href="~/css/fournisseurs.css" rel="stylesheet" />
 }
 
-<h2>Liste des employés</h2>
-
 <div class="fournisseurs-container">
+    <h1 class="fournisseurs-title">
+        <i class="fas fa-users"></i> Liste des employés
+    </h1>
+    
+    <!-- <p>DateJ1 : @ViewBag.DateJ1</p>
+    <p>DateJ2 : @ViewBag.DateJ2</p> -->
 
-@if (Model != null && Model.Any())
-{
-    <div class="table-responsive">
-        <table class="devis-table">
-            <tr>
-                <th>Nom</th>
-                <th>Statut</th>
-                <th>Département</th>
-            </tr>
-            @foreach (var emp in Model)
-            {
-                <tr>
-                    <td>@emp.employee_name</td>
-                    <td>@emp.status</td>
-                    <td>@emp.department</td>
-                </tr>
-            }
-        </table>
-    </div>  <!-- <-- ici, tu avais ouvert un <div> mais pas fermé correctement -->
-}
-else
-{
-    <p>Aucun employé trouvé.</p>
-}
+    <form method="get" asp-controller="Employe" asp-action="Filtre" class="fournisseurs-form">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>From(Date of joining)</label>
+                <div class="custom-select-container">
+                    <input type="date" class="fournisseurs-select" name="datej1" value="@ViewBag.DateJ1" />
+                </div>
+            </div>
 
-</div>  <!-- fermeture du div fournisseurs-container -->
+            <div class="form-group">
+                <label>To(Date of joining)</label>
+                <div class="custom-select-container">
+                    <input type="date" class="fournisseurs-select" name="datej2" value="@ViewBag.DateJ2" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Nom complet</label>
+                <div class="custom-select-container">
+                    <input type="text" class="fournisseurs-select" name="employee_name" placeholder="Entrez le nom" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Département</label>
+                <div class="custom-select-container">
+                    <select name="department" class="fournisseurs-select">
+                        <option value="">-- Tous les départements --</option>
+                        @foreach (var d in ViewBag.Departments)
+                        {
+                            <option value="@d.name">@d.name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Employment Type</label>
+                <select id="employmentType" name="employmentType" class="fournisseurs-select">
+                <option value="">-- Tous les types --</option> 
+                <option value="Apprentice">Apprentice</option>
+                <option value="Commission">Commission</option>
+                <option value="Contract">Contract</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Intern">Intern</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Piecework">Piecework</option>
+                <option value="Probation">Probation</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Statut</label>
+                <select id="statut" name="statut" class="fournisseurs-select">
+                <option value="">-- Tous les statuts --</option> 
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="Suspended">Suspended</option>
+                <option value="Left">Left</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="fournisseurs-button primary">
+                    <i class="fas fa-sliders-h"></i> Appliquer les filtres
+                </button>
+            </div>
+        </div>
+    </form>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="devis-container">
+            <table class="devis-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Date de naissance</th>
+                        <th>Genre</th>
+                        <th>Date d'embauche</th>
+                        <th>Statut</th>
+                        <th>Département</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var emp in Model)
+                    {
+                        <tr>
+                            <td>@emp.name</td>
+                            <td>@emp.employee_name</td>
+                            <td>@emp.date_of_birth?.ToString("dd/MM/yyyy")</td>
+                            <td>@emp.gender</td>
+                            <td>@emp.date_of_joining?.ToString("dd/MM/yyyy")</td>
+                            <td><span class="status-badge success">@emp.status</span></td>
+                            <td>@emp.department</td>
+                            <td>      
+                                <form asp-controller="Employe" asp-action="Fiche" method="get" style="display:inline;">
+                                    <input type="hidden" name="id" value="@emp.name" />
+                                    <button type="submit"class="action-btn view-btn"  title="Voir fiche de paie">
+                                           <i class="fas fa-eye"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="fas fa-user-slash"></i>
+            <h3>Aucun employé trouvé</h3>
+            <p>Aucun employé ne correspond à vos critères de recherche</p>
+        </div>
+    }
+</div>

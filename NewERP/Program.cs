@@ -2,8 +2,10 @@ using NewERP.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<LoginService>();
 builder.Services.AddHttpClient<EmployeService>();
+builder.Services.AddScoped<DepartmentService>();
 
 // 2. Activer la session
 builder.Services.AddSession(options =>

@@ -1,0 +1,82 @@
+/* fiche.css */
+.fiche-employe {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.fiche-employe .card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fiche-employe .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.fiche-employe h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+.fiche-employe dl.row {
+    padding: 20px;
+}
+
+.fiche-employe dt {
+    font-weight: 600;
+    color: #3498db;
+    padding: 8px 0;
+}
+
+.fiche-employe dd {
+    padding: 8px 0;
+    margin-left: 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.fiche-employe .btn-secondary {
+    background-color: #3498db;
+    border-color: #3498db;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.fiche-employe .btn-secondary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+    transform: translateX(-3px);
+}
+
+.fiche-employe .btn-secondary::before {
+    content: "←";
+    margin-right: 5px;
+    transition: transform 0.3s ease;
+}
+
+.fiche-employe .btn-secondary:hover::before {
+    transform: translateX(-3px);
+}
+
+/* Responsive pour petits écrans */
+@media (max-width: 576px) {
+    .fiche-employe .col-sm-3,
+    .fiche-employe .col-sm-9 {
+        width: 100%;
+    }
+    
+    .fiche-employe dt {
+        margin-top: 10px;
+        font-size: 1.1em;
+    }
+    
+    .fiche-employe dd {
+        margin-bottom: 10px;
+    }
+}

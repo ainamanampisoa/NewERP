@@ -95,9 +95,10 @@
 /home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/NewERP.pdb
 /home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/NewERP.genruntimeconfig.cache
 /home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/ref/NewERP.dll
-/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/nlrarsj3oz-c1pp1vliao.gz
 /home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/49rfjjkbqz-7jz8c28gcd.gz
 /home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/NewERP.csproj.AssemblyReference.cache
 /home/aina/Documents/Evaluation/NewERP/NewERP/bin/Debug/net9.0/Newtonsoft.Json.dll
 /home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/NewERP.csproj.Up2Date
-/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-evsmf144ni.gz
+/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/nlrarsj3oz-c1pp1vliao.gz
+/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-on65xmmqvl.gz
+/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-69q2xhaq82.gz

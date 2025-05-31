@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets/css/accueil.css"
     },
     {
+      "Id": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fiche.css",
+      "PackagePath": "staticwebassets/css/fiche.css"
+    },
+    {
       "Id": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fournisseurs.css",
       "PackagePath": "staticwebassets/css/fournisseurs.css"
     },
