@@ -7,36 +7,59 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/fiche.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 }
 
+<div class="fiche-employe-container">
 
-<div class="container mt-4 fiche-employe"> <!-- Ajoutez fiche-employe ici -->
-    <h2 class="mb-4">Fiche Employé : @Model.employee_name</h2>
+    <div class="fiche-employe">
+        <h2><i class="fas fa-user-circle"></i>Fiche Employé : @Model.employee_name</h2>
 
-    <div class="card shadow rounded p-4">
-        <dl class="row">
-            <dt class="col-sm-3">Identifiant</dt>
-            <dd class="col-sm-9">@Model.name</dd>
+        <div class="card">
+            <div class="card-body">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-id-badge"></i>Identifiant</div>
+                        <div class="info-value">@Model.name</div>
+                    </div>
 
-            <dt class="col-sm-3">Nom complet</dt>
-            <dd class="col-sm-9">@Model.employee_name</dd>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-user"></i>Nom complet</div>
+                        <div class="info-value">@Model.employee_name</div>
+                    </div>
 
-            <dt class="col-sm-3">Date de naissance</dt>
-            <dd class="col-sm-9">@Model.date_of_birth?.ToString("dd/MM/yyyy")</dd>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-birthday-cake"></i>Date de naissance</div>
+                        <div class="info-value">@Model.date_of_birth?.ToString("dd/MM/yyyy")</div>
+                    </div>
 
-            <dt class="col-sm-3">Sexe</dt>
-            <dd class="col-sm-9">@Model.gender</dd>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-venus-mars"></i>Sexe</div>
+                        <div class="info-value">@Model.gender</div>
+                    </div>
 
-            <dt class="col-sm-3">Date d'embauche</dt>
-            <dd class="col-sm-9">@Model.date_of_joining?.ToString("dd/MM/yyyy")</dd>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-briefcase"></i>Date d'embauche</div>
+                        <div class="info-value">@Model.date_of_joining?.ToString("dd/MM/yyyy")</div>
+                    </div>
 
-            <dt class="col-sm-3">Statut</dt>
-            <dd class="col-sm-9">@Model.status</dd>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-check-circle"></i>Statut</div>
+                        <div class="info-value status-badge">@Model.status</div>
+                    </div>
 
-            <dt class="col-sm-3">Département</dt>
-            <dd class="col-sm-9">@Model.department</dd>
-        </dl>
+                    <div class="info-item">
+                        <div class="info-label"><i class="fas fa-building"></i>Département</div>
+                        <div class="info-value">@Model.department</div>
+                    </div>
+                </div>
 
-        <a asp-controller="Employe" asp-action="Index" class="btn btn-secondary mt-3">⬅ Retour à la liste</a>
+                <div class="text-end">
+                    <a asp-controller="Employe" asp-action="Index" class="btn-back">
+                        <i class="fas fa-arrow-left"></i> Retour à la liste
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

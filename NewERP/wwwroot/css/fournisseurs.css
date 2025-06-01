@@ -496,3 +496,40 @@
                 height: 30px;
             }
         }
+
+        /* ================ BOUTON COMPACT ET CENTRÉ ================ */
+/* ================ BOUTON COMPACT ET CENTRÉ ================ */
+.form-group.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    grid-column: 1 / -1; /* Prend toute la largeur de la grille */
+}
+
+.fournisseurs-button.compact {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.8rem;
+    height: 36px;
+    width: auto; /* Largeur automatique basée sur le contenu */
+    min-width: 180px; /* Largeur minimale pour éviter qu'il soit trop étroit */
+    max-width: 240px; /* Largeur maximale pour éviter qu'il ne s'étire trop */
+}
+
+.fournisseurs-button.compact i {
+    font-size: 0.9rem;
+    margin-right: 0.2rem;
+}
+
+/* Ajuster les effets pour la version compacte */
+.fournisseurs-button.compact:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(76, 110, 245, 0.3);
+}
+
+.fournisseurs-button.compact:hover::after {
+    transform: rotate(30deg) translate(0, 65%);
+}
+
+.fournisseurs-button.compact:active {
+    transform: translateY(0);
+}
