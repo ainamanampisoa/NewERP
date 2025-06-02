@@ -1,12 +1,11 @@
 @model NewERP.Models.Employe
-
 @{
     ViewData["Title"] = "Fiche Employé";
     Layout = "_Layout";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/fiche.css">
+    <link rel="stylesheet" href="~/css/fiche.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 }
 
@@ -14,7 +13,6 @@
 
     <div class="fiche-employe">
         <h2><i class="fas fa-user-circle"></i>Fiche Employé : @Model.employee_name</h2>
-
         <div class="card">
             <div class="card-body">
                 <div class="info-grid">
@@ -48,18 +46,59 @@
                         <div class="info-value status-badge">@Model.status</div>
                     </div>
 
-                    <div class="info-item">
+                    @*<div class="info-item">
                         <div class="info-label"><i class="fas fa-building"></i>Département</div>
                         <div class="info-value">@Model.department</div>
-                    </div>
-                </div>
-
-                <div class="text-end">
-                    <a asp-controller="Employe" asp-action="Index" class="btn-back">
-                        <i class="fas fa-arrow-left"></i> Retour à la liste
-                    </a>
+                    </div>*@
                 </div>
             </div>
         </div>
+    </div>
+
+    @if (ViewBag.FichePaie != null)
+    {
+        <div class="devis-container">
+            <h2><i class="fas fa-file-invoice-dollar"></i>Fiche de paie de: @Model.employee_name</h2>
+            <table class="devis-table">
+                <thead>
+                    <tr>
+                        <th>Nom fiche</th>
+                        <th>Période</th>
+                        <th>Salaire brut</th>
+                        <th>Déductions</th>
+                        <th>Net à payer</th>
+                        <th>Statut</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var fiche in ViewBag.FichePaie)
+                    {
+                        <tr>
+                            <td>@fiche.Name</td>
+                            <td>@DateTime.Parse(fiche.StartDate).ToString("dd/MM/yyyy") - @DateTime.Parse(fiche.EndDate).ToString("dd/MM/yyyy")</td>
+                            <td>@fiche.GrossPay.ToString("N0")$</td>
+                            <td>@fiche.TotalDeduction.ToString("N0")$</td>
+                            <td><strong>@fiche.NetPay.ToString("N0")$</strong></td>
+                            <td>@fiche.Status</td>
+                            <td>pdf</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <h3>Aucune fiche de paie trouvée</h3>
+            <p>Cet employé ne possède pas encore de fiche de paie enregistrée.</p>
+        </div>
+    }
+    <div class="text-end">
+        <a asp-controller="Employe" asp-action="Liste" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Retour à la liste
+        </a>
     </div>
 </div>

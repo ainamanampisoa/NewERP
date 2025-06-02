@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 <label>Département</label>
                 <div class="custom-select-container">
                     <select name="department" class="fournisseurs-select">
@@ -51,7 +51,21 @@
                         }
                     </select>
                 </div>
+            </div>*@
+
+            <div class="form-group">
+                <label>Genre</label>
+                <div class="custom-select-container">
+                    <select name="gender" class="fournisseurs-select">
+                        <option value="">-- Genre --</option>
+                        @foreach (var g in ViewBag.Genders)
+                        {
+                            <option value="@g.name">@g.name</option>
+                        }
+                    </select>
+                </div>
             </div>
+
             <div class="form-group">
                 <label>Employment Type</label>
                 <select id="employmentType" name="employmentType" class="fournisseurs-select">
@@ -78,7 +92,7 @@
             </div>
             <div class="form-group button-container">
                 <button class="fournisseurs-button primary compact">
-                    <i class="fas fa-sliders-h"></i> Appliquer les filtres
+                    <i class="fas fa-sliders-h"></i> Filtrer
                 </button>
             </div>
         </div>
@@ -96,7 +110,7 @@
                         <th>Genre</th>
                         <th>Date d'embauche</th>
                         <th>Statut</th>
-                        <th>Département</th>
+                        @*<th>Département</th>*@
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -110,7 +124,7 @@
                             <td>@emp.gender</td>
                             <td>@emp.date_of_joining?.ToString("dd/MM/yyyy")</td>
                             <td><span class="status-badge success">@emp.status</span></td>
-                            <td>@emp.department</td>
+                            @*<td>@emp.department</td>*@
                             <td>      
                                 <form asp-controller="Employe" asp-action="Fiche" method="get" style="display:inline;">
                                     <input type="hidden" name="id" value="@emp.name" />

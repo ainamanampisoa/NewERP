@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Import des données";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link href="~/css/import.css" rel="stylesheet" />
+}
+
+<div class="import-page">
+    <div class="import-container">
+        <h1 class="fournisseurs-title">
+        <i class="fas fa-file-import"></i> Importer les données CSV
+        </h1>
+
+        <form method="post" enctype="multipart/form-data" asp-controller="Import" asp-action="Upload">
+            <div class="file-group">
+                <label for="employes">Fichier Employés</label>
+                <input type="file" id="employes" name="employes" accept=".csv">          
+            </div>
+
+            <div class="file-group">
+                <label for="departements">Fichier Départements</label>
+                <input type="file" id="departements" name="departements" accept=".csv">
+            </div>
+
+            <div class="file-group">
+                <label for="postes">Fichier Postes</label>
+                <input type="file" id="postes" name="postes" accept=".csv">
+            </div>
+
+            <button type="submit" class="btn-import">Valider</button>
+        </form>
+    </div>
+</div>
+

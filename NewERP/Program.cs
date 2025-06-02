@@ -6,6 +6,8 @@ builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<LoginService>();
 builder.Services.AddHttpClient<EmployeService>();
 builder.Services.AddScoped<DepartmentService>();
+builder.Services.AddHttpClient<GenderService>();
+builder.Services.AddHttpClient<SalaireService>();
 
 // 2. Activer la session
 builder.Services.AddSession(options =>

@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets/css/fournisseurs.css"
     },
     {
+      "Id": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/import.css",
+      "PackagePath": "staticwebassets/css/import.css"
+    },
+    {
       "Id": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },

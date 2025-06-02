@@ -22,7 +22,7 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>ERP<span>Next</span></h2>
+                <h2>Frappe<span>HR</span></h2>
             </div>
             <nav class="sidebar-nav">
 
@@ -32,27 +32,17 @@
                 </a>
 
                 <a asp-controller="Employe" asp-action="Liste" class="nav-item">
-                    <i class="nav-icon fas fa-people-carry"></i>
+                    <i class="nav-icon fas fa-users"></i>
                     Employee
                 </a>
-                <a asp-controller="Commande" asp-action="Index" class="nav-item">
-                    <i class="nav-icon fas fa-shopping-cart"></i>
-                    Bon de Commandes
+                <a asp-controller="Employe" asp-action="Tableau" class="nav-item">
+                    <i class="nav-icon fas fa-hand-holding-usd"></i>
+                    Salary
                 </a>
 
-                <a asp-controller="CommandeStatut" asp-action="Index" class="nav-item">
-                    <i class="nav-icon fas fa-shopping-cart"></i>
-                    Bon de Commandes avec Statut
-                </a>
-                
-                <a asp-controller="Facture" asp-action="Index" class="nav-item">
-                    <i class="nav-icon fas fa-file-invoice"></i>
-                    Factures
-                </a>
-
-                <a asp-controller="Facture" asp-action="Calendar" class="nav-item">
-                    <i class="nav-icon fas fa-calendar"></i>
-                    Calendrier
+                <a asp-controller="Data" asp-action="Index" class="nav-item">
+                    <i class="nav-icon fas fa-file-import"></i>
+                    Import Data
                 </a>
 
                 <a asp-controller="Settings" asp-action="Index" class="nav-item">
