@@ -74,9 +74,27 @@ namespace NewERP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Tableau()
+        public async Task<IActionResult> ExportPdf(string id)
         {
-            return View("Tableau");
+            var slip = await _salaireService.GetSalarySlipParNomAsync(id);
+            if (slip == null)
+                return NotFound();
+
+            _salaireService.ExporterSalarySlipEnPdf(slip);
+
+            // Redirige vers la fiche ou une page de confirmation
+            return RedirectToAction("Fiche", new { id = slip.Employee });
+        }
+
+        public async Task<IActionResult> Tableau(int? mois, int? annee)
+        {
+            if (!mois.HasValue || !annee.HasValue)
+            {
+                // Pas de données : on envoie une vue vide ou avec un message
+                return View("Tableau");
+            }
+            var bulletins = await _salaireService.GetSalarySlipsParMoisEtAnnee(mois.Value, annee.Value);
+            return View(bulletins);
         }
 
     }

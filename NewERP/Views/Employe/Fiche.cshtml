@@ -76,13 +76,21 @@
                     {
                         <tr>
                             <td>@fiche.Name</td>
-                            <td>@DateTime.Parse(fiche.StartDate).ToString("dd/MM/yyyy") - @DateTime.Parse(fiche.EndDate).ToString("dd/MM/yyyy")</td>
+                            <td>@fiche.StartDate.ToString("dd/MM/yyyy") - @fiche.EndDate.ToString("dd/MM/yyyy")</td>
                             <td>@fiche.GrossPay.ToString("N0")$</td>
                             <td>@fiche.TotalDeduction.ToString("N0")$</td>
                             <td><strong>@fiche.NetPay.ToString("N0")$</strong></td>
                             <td>@fiche.Status</td>
-                            <td>pdf</td>
-                        </tr>
+                            <td>
+                                <a asp-controller="Employe" 
+                                asp-action="ExportPdf" 
+                                asp-route-id="@fiche.Name" 
+                                class="action-btn view-btn" 
+                                title="Exporter en PDF">
+                                    <i class="fas fa-file-pdf"></i> Exporter PDF
+                                </a>
+                            </td>
+                       </tr>
                     }
                 </tbody>
             </table>

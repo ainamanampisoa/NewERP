@@ -1,3 +1,4 @@
+@model List<NewERP.Models.SalarySlip>
 @{
     ViewData["Title"] = "Tableau des employés";
     Layout = "_Layout";
@@ -11,7 +12,7 @@
     <h1 class="fournisseurs-title">
         <i class="fas fa-hand-holding-usd"></i>Tableau de salaire des employés
     </h1>
-    <form method="get" asp-controller="Employe" asp-action="Filtre" class="fournisseurs-form">
+    <form method="get" asp-controller="Employe" asp-action="Tableau" class="fournisseurs-form">
         <div class="form-grid">
             <div class="form-group">
                 <label>Mois</label>
@@ -51,4 +52,46 @@
         </div>
     </form>
 
+    @if (Model != null && Model.Any())
+    {
+        <div class="devis-container">
+            <table class="devis-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Statut</th>
+                        <th>Total Earning</th>
+                        <th>Total Deduction</th>
+                        <th>Salaire net</th>
+                        <th>Mois</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var slip in Model)
+                    {
+                        <tr>
+                            <td>@slip.Name</td>
+                            <td>@slip.EmployeeName</td>
+                            <td><span class="status-badge success">@slip.Status</span></td>
+                            <td>@slip.GrossPay.ToString("N0") $</td>
+                            <td>@slip.TotalDeduction.ToString("N0") $</td>
+                            <td><strong>@slip.NetPay.ToString("N0") $</strong></td>
+                            <td>@slip.StartDate.ToString("MMMM yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="slipty-state">
+            <i class="fas fa-user-slash"></i>
+            <h3>Aucun employé trouvé</h3>
+            <p>Aucun employé ne correspond à vos critères de recherche</p>
+        </div>
+    }
 </div>
+
+
