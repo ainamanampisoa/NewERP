@@ -2,13 +2,18 @@ using NewERP.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Autres services HttpClient :
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<LoginService>();
 builder.Services.AddHttpClient<EmployeService>();
 builder.Services.AddHttpClient<DepartmentService>();
 builder.Services.AddHttpClient<GenderService>();
 builder.Services.AddHttpClient<SalaireService>();
-builder.Services.AddHttpClient<DataService>();
+
+builder.Services.AddHttpClient<DataService>(client =>
+{
+    client.DefaultRequestHeaders.ExpectContinue = false;
+});
 
 // 2. Activer la session
 builder.Services.AddSession(options =>
@@ -21,7 +26,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth", options =>
     {
-        options.LoginPath = "/Login/Login"; // URL pour redirection login
+        options.LoginPath = "/Login/Login";
         options.LogoutPath = "/Login/Logout";
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.Lax;
@@ -42,14 +47,14 @@ if (!app.Environment.IsDevelopment())
 
 // 6. Middleware requis dans l'ordre correct
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // ← nécessaire si tu as des fichiers CSS/JS
+app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // ← Ajoute ça AVANT Authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseSession(); // ← Active la session ici AVANT les routes
+app.UseSession();
 
 // 7. Routing MVC
 app.MapControllerRoute(

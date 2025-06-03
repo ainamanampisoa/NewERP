@@ -86,16 +86,25 @@ namespace NewERP.Controllers
             return RedirectToAction("Fiche", new { id = slip.Employee });
         }
 
+        [HttpGet]
         public async Task<IActionResult> Tableau(int? mois, int? annee)
         {
-            if (!mois.HasValue || !annee.HasValue)
+            List<SalarySlip> bulletins = new List<SalarySlip>();
+
+            if (mois.HasValue && annee.HasValue)
             {
-                // Pas de données : on envoie une vue vide ou avec un message
-                return View("Tableau");
+                // Cas normal : mois + année
+                bulletins = await _salaireService.GetSalarySlipsParMoisEtAnnee(mois.Value, annee.Value);
             }
-            var bulletins = await _salaireService.GetSalarySlipsParMoisEtAnnee(mois.Value, annee.Value);
-            return View(bulletins);
+            else if (mois.HasValue)
+            {
+                // Cas spécial : mois seul → on récupère tous les bulletins de ce mois dans n’importe quelle année
+                bulletins = await _salaireService.GetSalarySlipsParMoisTousAnnees(mois.Value);
+            }
+
+            return View("Tableau", bulletins);
         }
+
 
     }
 }

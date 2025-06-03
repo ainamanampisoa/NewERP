@@ -229,6 +229,31 @@ namespace NewERP.Services
             return salarySlips;
         }
 
+        public async Task<List<SalarySlip>> GetSalarySlipsParMoisTousAnnees(int mois)
+        {
+            FrappeAuthHelper.AjouterAuthorization(_httpClient);
+
+            string fields = "[\"name\", \"employee\", \"employee_name\", \"gross_pay\", \"total_deduction\", \"net_pay\", \"start_date\", \"status\"]";
+
+            // Mois au format 2 chiffres pour LIKE
+            string moisStr = mois.ToString("D2");
+
+            // Construction du filtre pour SQL LIKE sur la date (ex: '%-03-%' pour mars)
+            string filters = $@"[
+                [""start_date"", ""like"", ""%-{moisStr}-%""]
+            ]";
+
+            string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?fields={Uri.EscapeDataString(fields)}&filters={Uri.EscapeDataString(filters)}";
+
+            var response = await _httpClient.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var json = JObject.Parse(responseBody);
+
+            var salarySlips = json["data"].ToObject<List<SalarySlip>>();
+            return salarySlips;
+        }
 
     }
 }
