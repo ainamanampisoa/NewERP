@@ -3,6 +3,19 @@
     Layout = "_Layout";
 }
 
+@if (TempData["Message"] != null)
+{
+    <div class="import-alert success">
+        <i class="fas fa-check-circle"></i> @TempData["Message"]
+    </div>
+}
+@if (TempData["Erreur"] != null)
+{
+    <div class="import-alert error">
+        <i class="fas fa-exclamation-circle"></i> @TempData["Erreur"]
+    </div>
+}
+
 @section Styles {
     <link href="~/css/import.css" rel="stylesheet" />
 }
@@ -13,24 +26,41 @@
         <i class="fas fa-file-import"></i> Importer les données CSV
         </h1>
 
-        <form method="post" enctype="multipart/form-data" asp-controller="Import" asp-action="Upload">
+       <form method="post" enctype="multipart/form-data" asp-controller="Data" asp-action="Upload">
             <div class="file-group">
-                <label for="employes">Fichier Employés</label>
+                <label for="employes">Fichier 1</label>
                 <input type="file" id="employes" name="employes" accept=".csv">          
             </div>
 
             <div class="file-group">
-                <label for="departements">Fichier Départements</label>
+                <label for="departements">Fichier 2</label>
                 <input type="file" id="departements" name="departements" accept=".csv">
             </div>
 
             <div class="file-group">
-                <label for="postes">Fichier Postes</label>
+                <label for="postes">Fichier 3</label>
                 <input type="file" id="postes" name="postes" accept=".csv">
             </div>
 
             <button type="submit" class="btn-import">Valider</button>
         </form>
+
+        <div class="reset-section">
+        <form method="post" asp-controller="Data" asp-action="Reset" onsubmit="return confirm('Voulez-vous vraiment réinitialiser toutes les données ?');">
+            <button type="submit" class="btn-reset">
+                <i class="fas fa-trash-alt"></i> Réinitialiser les données
+            </button>
+        </form>
+        </div>
     </div>
 </div>
 
+@section Scripts {
+    <script>
+        function confirmReset() {
+            if (confirm("Êtes-vous sûr de vouloir réinitialiser toutes les données ? Cette action est irréversible.")) {
+                window.location.href = '@Url.Action("ResetData", "Data")';
+            }
+        }
+    </script>
+}

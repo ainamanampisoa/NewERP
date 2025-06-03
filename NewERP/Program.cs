@@ -5,9 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<LoginService>();
 builder.Services.AddHttpClient<EmployeService>();
-builder.Services.AddScoped<DepartmentService>();
+builder.Services.AddHttpClient<DepartmentService>();
 builder.Services.AddHttpClient<GenderService>();
 builder.Services.AddHttpClient<SalaireService>();
+builder.Services.AddHttpClient<DataService>();
 
 // 2. Activer la session
 builder.Services.AddSession(options =>
