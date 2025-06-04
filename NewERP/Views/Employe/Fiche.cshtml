@@ -80,20 +80,37 @@
                             <td>@fiche.GrossPay.ToString("N0")$</td>
                             <td>@fiche.TotalDeduction.ToString("N0")$</td>
                             <td><strong>@fiche.NetPay.ToString("N0")$</strong></td>
-                            <td>@fiche.Status</td>
+                            <td><span class="status-badge success">@fiche.Status</span></td>
                             <td>
                                 <a asp-controller="Employe" 
                                 asp-action="ExportPdf" 
                                 asp-route-id="@fiche.Name" 
                                 class="action-btn view-btn" 
-                                title="Exporter en PDF">
-                                    <i class="fas fa-file-pdf"></i> Exporter PDF
+                                title="PDF">
+                                    <i class="fas fa-file-pdf"></i>PDF
                                 </a>
                             </td>
                        </tr>
                     }
                 </tbody>
             </table>
+            <div class="pagination">
+                <ul class="pagination-list">
+                    @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+                    {
+                        if (i == (int)ViewBag.CurrentPage)
+                        {
+                            <li class="active"><span>@i</span></li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-action="Fiche" asp-route-id="@ViewBag.IdEmploye" asp-route-page="@i" asp-route-pageSize="@ViewBag.PageSize">@i</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
         </div>
     }
     else
@@ -109,4 +126,5 @@
             <i class="fas fa-arrow-left"></i> Retour à la liste
         </a>
     </div>
+
 </div>

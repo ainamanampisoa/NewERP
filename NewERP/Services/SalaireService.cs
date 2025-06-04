@@ -5,6 +5,13 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Diagnostics;
 using System.IO;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+using System.Linq;
+
 namespace NewERP.Services
 {
     public class SalaireService
@@ -202,56 +209,91 @@ namespace NewERP.Services
             Process.Start("xdg-open", outputPath);
         }
 
-        public async Task<List<SalarySlip>> GetSalarySlipsParMoisEtAnnee(int mois, int annee)
+        public async Task<List<string>> GetSalarySlipNames()
         {
             FrappeAuthHelper.AjouterAuthorization(_httpClient);
+            
+            // var now = DateTime.Now;
+            // var start = new DateTime(now.Year - 10, 1, 1);
+            // var end = new DateTime(now.Year + 10, 12, 31);
 
-            string fields = "[\"name\", \"employee\", \"employee_name\", \"gross_pay\", \"total_deduction\", \"net_pay\", \"start_date\",\"status\"]";
+            // string filters = Uri.EscapeDataString(
+            //     $"[[\"start_date\", \">=\", \"{start:yyyy-MM-dd}\"], [\"start_date\", \"<=\", \"{end:yyyy-MM-dd}\"]]"
+            // );
 
-            string dateDebut = new DateTime(annee, mois, 1).ToString("yyyy-MM-dd");
-            string dateFin = new DateTime(annee, mois, DateTime.DaysInMonth(annee, mois)).ToString("yyyy-MM-dd");
+            string fields = Uri.EscapeDataString("[\"name\"]");
+            string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?fields={fields}";
+            // string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?filters={filters}&fields={fields}&sid={sid}";
 
-            // Ici on filtre par start_date et pas posting_date
-            string filters = $@"[
-                [""start_date"", "">="", ""{dateDebut}""],
-                [""start_date"", ""<="", ""{dateFin}""]
-            ]";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            Console.WriteLine($"Réponse de l'API : {response.StatusCode}");
 
-            string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?fields={Uri.EscapeDataString(fields)}&filters={Uri.EscapeDataString(filters)}";
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Erreur lors de l'appel API : {response.StatusCode}");
+            }
 
-            var response = await _httpClient.GetAsync(url);
-            response.EnsureSuccessStatusCode();
+            string json = await response.Content.ReadAsStringAsync();
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<List<SalarySlip>>>(json);
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var json = JObject.Parse(responseBody);
+            if (apiResponse?.Data == null || !apiResponse.Data.Any())
+            {
+                return new List<string>();
+            }
 
-            var salarySlips = json["data"].ToObject<List<SalarySlip>>();
-            return salarySlips;
+            return apiResponse.Data.Select(slip => slip.Name).ToList();
         }
 
-        public async Task<List<SalarySlip>> GetSalarySlipsParMoisTousAnnees(int mois)
+
+        public async Task<List<SalarySlip>> GetSalarySlipsDetails(List<string> names, int? mois = null, int? annee = null)
         {
-            FrappeAuthHelper.AjouterAuthorization(_httpClient);
+            var salarySlips = new List<SalarySlip>();
 
-            string fields = "[\"name\", \"employee\", \"employee_name\", \"gross_pay\", \"total_deduction\", \"net_pay\", \"start_date\", \"status\"]";
+            foreach (var name in names)
+            {
+                FrappeAuthHelper.AjouterAuthorization(_httpClient);
+                string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip/{name}";
 
-            // Mois au format 2 chiffres pour LIKE
-            string moisStr = mois.ToString("D2");
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+                if (!response.IsSuccessStatusCode) continue;
 
-            // Construction du filtre pour SQL LIKE sur la date (ex: '%-03-%' pour mars)
-            string filters = $@"[
-                [""start_date"", ""like"", ""%-{moisStr}-%""]
-            ]";
+                string json = await response.Content.ReadAsStringAsync();
+                var salarySlipResponse = JsonConvert.DeserializeObject<ApiResponse<SalarySlip>>(json);
+                var slip = salarySlipResponse?.Data;
+                if (slip == null) continue;
 
-            string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?fields={Uri.EscapeDataString(fields)}&filters={Uri.EscapeDataString(filters)}";
+                if (mois.HasValue && annee.HasValue)
+                {
+                    if (slip.StartDate.Month == mois.Value && slip.StartDate.Year == annee.Value)
+                    {
+                        salarySlips.Add(slip);
+                    }
+                }
+                else if (mois.HasValue)
+                {
+                    Console.WriteLine("Filtrage par mois uniquement : " + mois.Value);
+                    if (slip.StartDate.Month == mois.Value)
+                    {
+                        Console.WriteLine("Ajout car mois correspond.");
+                        salarySlips.Add(slip);
+                    }
+                }
+                else if (annee.HasValue)
+                {
+                    Console.WriteLine("Filtrage par année uniquement : " + annee.Value);
+                    if (slip.StartDate.Year == annee.Value)
+                    {
+                        Console.WriteLine("Ajout car année correspond.");
+                        salarySlips.Add(slip);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Aucun filtre. Ajout automatique.");
+                    salarySlips.Add(slip);
+                }
+            }
 
-            var response = await _httpClient.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var json = JObject.Parse(responseBody);
-
-            var salarySlips = json["data"].ToObject<List<SalarySlip>>();
             return salarySlips;
         }
 

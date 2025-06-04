@@ -24,7 +24,7 @@ namespace NewERP.Services
             var erreurs = new List<string>();
 
             try
-            {          
+            {
                 FrappeAuthHelper.AjouterAuthorization(_httpClient);
 
                 var lignesFichier1 = File.ReadAllLines(file1);
@@ -98,43 +98,37 @@ namespace NewERP.Services
         public async Task<List<string>> ImportDataCsv(string file1, string file2, string file3)
         {
             var result = new List<string>();
+
             FrappeAuthHelper.AjouterAuthorization(_httpClient);
 
-            // URL de l’endpoint Frappe
             string url = "http://erpnext.localhost:8000/api/method/hrms.hr.import.importCsv";
 
-            // 1. Préparer le contenu multipart (les 3 fichiers)
             using (var content = new MultipartFormDataContent())
             {
                 if (!string.IsNullOrEmpty(file1))
-                    content.Add(new StreamContent(File.OpenRead(file1)), "file1", Path.GetFileName(file1));
-
-                if (!string.IsNullOrEmpty(file2))
-                    content.Add(new StreamContent(File.OpenRead(file2)), "file2", Path.GetFileName(file2));
-
-                if (!string.IsNullOrEmpty(file3))
-                    content.Add(new StreamContent(File.OpenRead(file3)), "file3", Path.GetFileName(file3));
-
-                // 2. Créer manuellement la requête en HTTP/1.0
-                var request = new HttpRequestMessage(HttpMethod.Post, url)
                 {
-                    Content = content,
-                    Version = new Version(1, 0)  // ← force HTTP/1.0, donc pas d’Expect: 100-continue
-                };
-
-                // 3. S’assurer qu’on n’a pas d’en-tête Expect sur la requête ou sur le client
-                request.Headers.ExpectContinue = false;
-                if (_httpClient.DefaultRequestHeaders.Contains("Expect"))
-                {
-                    _httpClient.DefaultRequestHeaders.Remove("Expect");
+                    var fileStream1 = new FileStream(file1, FileMode.Open, FileAccess.Read);
+                    content.Add(new StreamContent(fileStream1), "file1", Path.GetFileName(file1));
                 }
 
-                // 4. Envoyer la requête
-                var response = await _httpClient.SendAsync(request);
+                if (!string.IsNullOrEmpty(file2))
+                {
+                    var fileStream2 = new FileStream(file2, FileMode.Open, FileAccess.Read);
+                    content.Add(new StreamContent(fileStream2), "file2", Path.GetFileName(file2));
+                }
+
+                if (!string.IsNullOrEmpty(file3))
+                {
+                    var fileStream3 = new FileStream(file3, FileMode.Open, FileAccess.Read);
+                    content.Add(new StreamContent(fileStream3), "file3", Path.GetFileName(file3));
+                }
+
+                var response = await _httpClient.PostAsync(url, content);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseString = await response.Content.ReadAsStringAsync();
+
                     result.Add("Succès : " + responseString);
                 }
                 else

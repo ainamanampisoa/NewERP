@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "aBPM1ol3cOV9pp5UGQkAACK1I/4bmCmZm5rxb6BTSio=",
+  "Hash": "/fXBBNP07RoGVA1fdtVtuekMoH3SB4MMUfeiiUYJDQU=",
   "Source": "NewERP",
   "BasePath": "_content/NewERP",
   "Mode": "Default",
@@ -857,12 +857,12 @@
       "OriginalItemSpec": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css"
     },
     {
-      "Identity": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-4a5zjuhigv.gz",
+      "Identity": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-uhszx4b5hw.gz",
       "SourceId": "NewERP",
       "SourceType": "Discovered",
       "ContentRoot": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/NewERP",
-      "RelativePath": "css/fournisseurs#[.{fingerprint=4a5zjuhigv}]?.css.gz",
+      "RelativePath": "css/fournisseurs#[.{fingerprint=uhszx4b5hw}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -871,8 +871,8 @@
       "RelatedAsset": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fournisseurs.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "fdjccmbsh6",
-      "Integrity": "7b4LZpyl2amnH8+axiyDkrfRvipf13E1jjoqvvUPBgQ=",
+      "Fingerprint": "r1g2xs934e",
+      "Integrity": "v75nPmWdIlA2PFHUW9p9DXzFkxbzHl2sjcAR6uVh+a8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fournisseurs.css"
@@ -1088,12 +1088,12 @@
       "OriginalItemSpec": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/lib/bootstrap/dist/css/bootstrap.css"
     },
     {
-      "Identity": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-ux1tjxohzx.gz",
+      "Identity": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-9hsvj1wfnv.gz",
       "SourceId": "NewERP",
       "SourceType": "Discovered",
       "ContentRoot": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/NewERP",
-      "RelativePath": "css/fiche#[.{fingerprint=ux1tjxohzx}]?.css.gz",
+      "RelativePath": "css/fiche#[.{fingerprint=9hsvj1wfnv}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -1102,8 +1102,8 @@
       "RelatedAsset": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fiche.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "fxyiwqz8pe",
-      "Integrity": "rYb37/kzWAK0ZFAcbGs+L3okpTy25k8P43xYBnHkeTM=",
+      "Fingerprint": "hejq5oqb0c",
+      "Integrity": "uclGPfIX/j0/ht5rXS0uTc/TWzZT05RlfH6G8HNNJW0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fiche.css"
@@ -1522,8 +1522,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "ux1tjxohzx",
-      "Integrity": "7nkyMrehgETchYtI1NDDbMO7itgYTsigdJZkeNJsTGc=",
+      "Fingerprint": "9hsvj1wfnv",
+      "Integrity": "EwcdBrqD17W+8lUwvE/wf7B1cmS11Tni8HBVBQEpD6k=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/fiche.css"
@@ -1543,8 +1543,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "4a5zjuhigv",
-      "Integrity": "hD/UXuMzlwW4Mk6l9tv9rliEV2PKBNG/xzYs9o3EHlA=",
+      "Fingerprint": "uhszx4b5hw",
+      "Integrity": "/kPAkmfR20aO+TPEMFCCoTE7aMtstj8JTExShKxAXog=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/fournisseurs.css"
@@ -3194,13 +3194,13 @@
       ]
     },
     {
-      "Route": "css/fiche.css",
-      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-ux1tjxohzx.gz",
+      "Route": "css/fiche.9hsvj1wfnv.css",
+      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-9hsvj1wfnv.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000479846449"
+          "Quality": "0.000425350915"
         }
       ],
       "ResponseHeaders": [
@@ -3210,19 +3210,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2083"
+          "Value": "2350"
         },
         {
           "Name": "ETag",
-          "Value": "\"rYb37/kzWAK0ZFAcbGs+L3okpTy25k8P43xYBnHkeTM=\""
+          "Value": "\"uclGPfIX/j0/ht5rXS0uTc/TWzZT05RlfH6G8HNNJW0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:44:55 GMT"
+          "Value": "Wed, 04 Jun 2025 09:18:45 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "no-cache"
+          "Value": "max-age=31536000, immutable"
         },
         {
           "Name": "Content-Encoding",
@@ -3238,18 +3238,26 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"7nkyMrehgETchYtI1NDDbMO7itgYTsigdJZkeNJsTGc=\""
+          "Value": "W/\"EwcdBrqD17W+8lUwvE/wf7B1cmS11Tni8HBVBQEpD6k=\""
         }
       ],
       "EndpointProperties": [
         {
+          "Name": "fingerprint",
+          "Value": "9hsvj1wfnv"
+        },
+        {
+          "Name": "label",
+          "Value": "css/fiche.css"
+        },
+        {
           "Name": "integrity",
-          "Value": "sha256-7nkyMrehgETchYtI1NDDbMO7itgYTsigdJZkeNJsTGc="
+          "Value": "sha256-EwcdBrqD17W+8lUwvE/wf7B1cmS11Tni8HBVBQEpD6k="
         }
       ]
     },
     {
-      "Route": "css/fiche.css",
+      "Route": "css/fiche.9hsvj1wfnv.css",
       "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fiche.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3259,7 +3267,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8573"
+          "Value": "10001"
         },
         {
           "Name": "Content-Type",
@@ -3267,121 +3275,21 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"7nkyMrehgETchYtI1NDDbMO7itgYTsigdJZkeNJsTGc=\""
+          "Value": "\"EwcdBrqD17W+8lUwvE/wf7B1cmS11Tni8HBVBQEpD6k=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:44:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-7nkyMrehgETchYtI1NDDbMO7itgYTsigdJZkeNJsTGc="
-        }
-      ]
-    },
-    {
-      "Route": "css/fiche.css.gz",
-      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-ux1tjxohzx.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2083"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"rYb37/kzWAK0ZFAcbGs+L3okpTy25k8P43xYBnHkeTM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:44:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-rYb37/kzWAK0ZFAcbGs+L3okpTy25k8P43xYBnHkeTM="
-        }
-      ]
-    },
-    {
-      "Route": "css/fiche.ux1tjxohzx.css",
-      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-ux1tjxohzx.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000479846449"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2083"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"rYb37/kzWAK0ZFAcbGs+L3okpTy25k8P43xYBnHkeTM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:44:55 GMT"
+          "Value": "Wed, 04 Jun 2025 09:18:45 GMT"
         },
         {
           "Name": "Cache-Control",
           "Value": "max-age=31536000, immutable"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"7nkyMrehgETchYtI1NDDbMO7itgYTsigdJZkeNJsTGc=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ux1tjxohzx"
+          "Value": "9hsvj1wfnv"
         },
         {
           "Name": "label",
@@ -3389,13 +3297,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-7nkyMrehgETchYtI1NDDbMO7itgYTsigdJZkeNJsTGc="
+          "Value": "sha256-EwcdBrqD17W+8lUwvE/wf7B1cmS11Tni8HBVBQEpD6k="
         }
       ]
     },
     {
-      "Route": "css/fiche.ux1tjxohzx.css",
-      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fiche.css",
+      "Route": "css/fiche.9hsvj1wfnv.css.gz",
+      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-9hsvj1wfnv.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3404,7 +3312,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "8573"
+          "Value": "2350"
         },
         {
           "Name": "Content-Type",
@@ -3412,56 +3320,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"7nkyMrehgETchYtI1NDDbMO7itgYTsigdJZkeNJsTGc=\""
+          "Value": "\"uclGPfIX/j0/ht5rXS0uTc/TWzZT05RlfH6G8HNNJW0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:44:55 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "ux1tjxohzx"
-        },
-        {
-          "Name": "label",
-          "Value": "css/fiche.css"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-7nkyMrehgETchYtI1NDDbMO7itgYTsigdJZkeNJsTGc="
-        }
-      ]
-    },
-    {
-      "Route": "css/fiche.ux1tjxohzx.css.gz",
-      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-ux1tjxohzx.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2083"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"rYb37/kzWAK0ZFAcbGs+L3okpTy25k8P43xYBnHkeTM=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:44:55 GMT"
+          "Value": "Wed, 04 Jun 2025 09:18:45 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3479,7 +3342,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ux1tjxohzx"
+          "Value": "9hsvj1wfnv"
         },
         {
           "Name": "label",
@@ -3487,18 +3350,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-rYb37/kzWAK0ZFAcbGs+L3okpTy25k8P43xYBnHkeTM="
+          "Value": "sha256-uclGPfIX/j0/ht5rXS0uTc/TWzZT05RlfH6G8HNNJW0="
         }
       ]
     },
     {
-      "Route": "css/fournisseurs.4a5zjuhigv.css",
-      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-4a5zjuhigv.gz",
+      "Route": "css/fiche.css",
+      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-9hsvj1wfnv.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000321543408"
+          "Quality": "0.000425350915"
         }
       ],
       "ResponseHeaders": [
@@ -3508,19 +3371,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3109"
+          "Value": "2350"
         },
         {
           "Name": "ETag",
-          "Value": "\"7b4LZpyl2amnH8+axiyDkrfRvipf13E1jjoqvvUPBgQ=\""
+          "Value": "\"uclGPfIX/j0/ht5rXS0uTc/TWzZT05RlfH6G8HNNJW0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:27:14 GMT"
+          "Value": "Wed, 04 Jun 2025 09:18:45 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -3536,26 +3399,155 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"hD/UXuMzlwW4Mk6l9tv9rliEV2PKBNG/xzYs9o3EHlA=\""
+          "Value": "W/\"EwcdBrqD17W+8lUwvE/wf7B1cmS11Tni8HBVBQEpD6k=\""
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "4a5zjuhigv"
-        },
-        {
-          "Name": "label",
-          "Value": "css/fournisseurs.css"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-hD/UXuMzlwW4Mk6l9tv9rliEV2PKBNG/xzYs9o3EHlA="
+          "Value": "sha256-EwcdBrqD17W+8lUwvE/wf7B1cmS11Tni8HBVBQEpD6k="
         }
       ]
     },
     {
-      "Route": "css/fournisseurs.4a5zjuhigv.css",
+      "Route": "css/fiche.css",
+      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fiche.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "10001"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"EwcdBrqD17W+8lUwvE/wf7B1cmS11Tni8HBVBQEpD6k=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 09:18:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-EwcdBrqD17W+8lUwvE/wf7B1cmS11Tni8HBVBQEpD6k="
+        }
+      ]
+    },
+    {
+      "Route": "css/fiche.css.gz",
+      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-9hsvj1wfnv.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2350"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"uclGPfIX/j0/ht5rXS0uTc/TWzZT05RlfH6G8HNNJW0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 09:18:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-uclGPfIX/j0/ht5rXS0uTc/TWzZT05RlfH6G8HNNJW0="
+        }
+      ]
+    },
+    {
+      "Route": "css/fournisseurs.css",
+      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-uhszx4b5hw.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000302114804"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3309"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"v75nPmWdIlA2PFHUW9p9DXzFkxbzHl2sjcAR6uVh+a8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 09:03:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"/kPAkmfR20aO+TPEMFCCoTE7aMtstj8JTExShKxAXog=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-/kPAkmfR20aO+TPEMFCCoTE7aMtstj8JTExShKxAXog="
+        }
+      ]
+    },
+    {
+      "Route": "css/fournisseurs.css",
       "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fournisseurs.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -3565,7 +3557,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "15419"
+          "Value": "16298"
         },
         {
           "Name": "Content-Type",
@@ -3573,11 +3565,156 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"hD/UXuMzlwW4Mk6l9tv9rliEV2PKBNG/xzYs9o3EHlA=\""
+          "Value": "\"/kPAkmfR20aO+TPEMFCCoTE7aMtstj8JTExShKxAXog=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:27:14 GMT"
+          "Value": "Wed, 04 Jun 2025 09:03:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-/kPAkmfR20aO+TPEMFCCoTE7aMtstj8JTExShKxAXog="
+        }
+      ]
+    },
+    {
+      "Route": "css/fournisseurs.css.gz",
+      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-uhszx4b5hw.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3309"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"v75nPmWdIlA2PFHUW9p9DXzFkxbzHl2sjcAR6uVh+a8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 09:03:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-v75nPmWdIlA2PFHUW9p9DXzFkxbzHl2sjcAR6uVh+a8="
+        }
+      ]
+    },
+    {
+      "Route": "css/fournisseurs.uhszx4b5hw.css",
+      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-uhszx4b5hw.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000302114804"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3309"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"v75nPmWdIlA2PFHUW9p9DXzFkxbzHl2sjcAR6uVh+a8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 09:03:24 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"/kPAkmfR20aO+TPEMFCCoTE7aMtstj8JTExShKxAXog=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "uhszx4b5hw"
+        },
+        {
+          "Name": "label",
+          "Value": "css/fournisseurs.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-/kPAkmfR20aO+TPEMFCCoTE7aMtstj8JTExShKxAXog="
+        }
+      ]
+    },
+    {
+      "Route": "css/fournisseurs.uhszx4b5hw.css",
+      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fournisseurs.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "16298"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"/kPAkmfR20aO+TPEMFCCoTE7aMtstj8JTExShKxAXog=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 04 Jun 2025 09:03:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3587,7 +3724,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "4a5zjuhigv"
+          "Value": "uhszx4b5hw"
         },
         {
           "Name": "label",
@@ -3595,13 +3732,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-hD/UXuMzlwW4Mk6l9tv9rliEV2PKBNG/xzYs9o3EHlA="
+          "Value": "sha256-/kPAkmfR20aO+TPEMFCCoTE7aMtstj8JTExShKxAXog="
         }
       ]
     },
     {
-      "Route": "css/fournisseurs.4a5zjuhigv.css.gz",
-      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-4a5zjuhigv.gz",
+      "Route": "css/fournisseurs.uhszx4b5hw.css.gz",
+      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-uhszx4b5hw.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3610,7 +3747,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3109"
+          "Value": "3309"
         },
         {
           "Name": "Content-Type",
@@ -3618,11 +3755,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"7b4LZpyl2amnH8+axiyDkrfRvipf13E1jjoqvvUPBgQ=\""
+          "Value": "\"v75nPmWdIlA2PFHUW9p9DXzFkxbzHl2sjcAR6uVh+a8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:27:14 GMT"
+          "Value": "Wed, 04 Jun 2025 09:03:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3640,7 +3777,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "4a5zjuhigv"
+          "Value": "uhszx4b5hw"
         },
         {
           "Name": "label",
@@ -3648,144 +3785,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-7b4LZpyl2amnH8+axiyDkrfRvipf13E1jjoqvvUPBgQ="
-        }
-      ]
-    },
-    {
-      "Route": "css/fournisseurs.css",
-      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-4a5zjuhigv.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000321543408"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3109"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"7b4LZpyl2amnH8+axiyDkrfRvipf13E1jjoqvvUPBgQ=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:27:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"hD/UXuMzlwW4Mk6l9tv9rliEV2PKBNG/xzYs9o3EHlA=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-hD/UXuMzlwW4Mk6l9tv9rliEV2PKBNG/xzYs9o3EHlA="
-        }
-      ]
-    },
-    {
-      "Route": "css/fournisseurs.css",
-      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/wwwroot/css/fournisseurs.css",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "15419"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"hD/UXuMzlwW4Mk6l9tv9rliEV2PKBNG/xzYs9o3EHlA=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:27:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-hD/UXuMzlwW4Mk6l9tv9rliEV2PKBNG/xzYs9o3EHlA="
-        }
-      ]
-    },
-    {
-      "Route": "css/fournisseurs.css.gz",
-      "AssetFile": "/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-4a5zjuhigv.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3109"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/css"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"7b4LZpyl2amnH8+axiyDkrfRvipf13E1jjoqvvUPBgQ=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Mon, 02 Jun 2025 12:27:14 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-7b4LZpyl2amnH8+axiyDkrfRvipf13E1jjoqvvUPBgQ="
+          "Value": "sha256-v75nPmWdIlA2PFHUW9p9DXzFkxbzHl2sjcAR6uVh+a8="
         }
       ]
     },

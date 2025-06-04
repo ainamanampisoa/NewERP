@@ -87,15 +87,15 @@ namespace NewERP.Controllers
 
             if (result.Count == 0)
             {
-                List<string> imports = await _dataService.ImportDataCsv(tempPath1, tempPath2, tempPath3);
-                ViewBag.Resultat = imports;
-                ViewBag.Succeess = $"Donnees inserer avec succees";
+                ViewBag.Imported = await _dataService.ImportDataCsv(tempPath1, tempPath2, tempPath3);
+                ViewBag.Succeess = "Données insérées avec succès";
             }
             else
             {
-                ViewBag.Resultat = result;
+                ViewBag.Errors = result;
             }
-            return RedirectToAction("Index");
+
+            return View("Index");
         }
 
         [HttpPost]
@@ -115,7 +115,7 @@ namespace NewERP.Controllers
                 Console.WriteLine(ex.Message); // Affiche l'erreur dans la console
             }
 
-            return RedirectToAction("Index");
+            return View("Index");
         }
 
     }

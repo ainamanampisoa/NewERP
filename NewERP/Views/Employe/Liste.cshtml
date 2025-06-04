@@ -147,4 +147,34 @@
             <p>Aucun employé ne correspond à vos critères de recherche</p>
         </div>
     }
+    <div class="pagination">
+        <ul class="pagination-list">
+            @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+            {
+                if (i == (int)ViewBag.CurrentPage)
+                {
+                    <li class="active"><span>@i</span></li>
+                }
+                else
+                {
+                    <li>
+                        <a asp-action="Filtre"
+                        asp-route-page="@i"
+                        asp-route-pageSize="@ViewBag.PageSize"
+                        asp-route-datej1="@ViewBag.DateJ1"
+                        asp-route-datej2="@ViewBag.DateJ2"
+                        asp-route-employee_name="@ViewBag.EmployeeName"
+                        asp-route-department="@ViewBag.Department"
+                        asp-route-gender="@ViewBag.Gender"
+                        asp-route-employmentType="@ViewBag.EmploymentType"
+                        asp-route-statut="@ViewBag.Statut">
+                        @i
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+
+
 </div>

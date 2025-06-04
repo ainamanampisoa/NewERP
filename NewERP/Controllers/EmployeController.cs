@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NewERP.Services;
+using NewERP.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace NewERP.Controllers
@@ -27,29 +28,63 @@ namespace NewERP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Liste()
+        public async Task<IActionResult> Liste(int page = 1, int pageSize = 3)
         {
+            // Récupère la liste complète des employés
             var employes = await _employeService.GetAllEmployes();
+
+            // Récupère les listes annexes
             var departments = await _departmentService.GetAllDepartments();
             var genders = await _genderService.GetAllGenders();
 
-            // Utilise ViewBag pour transmettre les départements à la vue
+            // Pagination
+            var totalItems = employes.Count();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var paginatedEmployes = employes
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            // Passage des données à la vue via ViewBag
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalItems = totalItems;
+
             ViewBag.Departments = departments;
             ViewBag.Genders = genders;
 
-            return View(employes); // Le modèle principal reste la liste des employés
+            // Envoi à la vue la liste paginée d’employés
+            return View(paginatedEmployes);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Filtre(DateTime? datej1, DateTime? datej2, string employee_name, string department, string employmentType, string statut,string gender)
+        public async Task<IActionResult> Filtre(
+            DateTime? datej1,
+            DateTime? datej2,
+            string employee_name,
+            string department,
+            string employmentType,
+            string statut,
+            string gender,
+            int page = 1,
+            int pageSize = 3)
         {
-            var employes = await _employeService.FiltrerEmployes(datej1, datej2, employee_name, department, employmentType, statut,gender);
+            var employes = await _employeService.FiltrerEmployes(datej1, datej2, employee_name, department, employmentType, statut, gender);
             var departments = await _departmentService.GetAllDepartments();
             var genders = await _genderService.GetAllGenders();
 
-            //Raha ohatra tiana ijanona eo amle formulaire le valeur anle input ao arinan'ny validation
-            ViewBag.Departments = departments;
-            ViewBag.Genders = genders;
+            // Pagination
+            var totalItems = employes.Count();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var paginatedEmployes = employes
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            // Données pour garder les filtres
             ViewBag.DateJ1 = datej1?.ToString("yyyy-MM-dd");
             ViewBag.DateJ2 = datej2?.ToString("yyyy-MM-dd");
             ViewBag.EmployeeName = employee_name;
@@ -58,20 +93,46 @@ namespace NewERP.Controllers
             ViewBag.EmploymentType = employmentType;
             ViewBag.Statut = statut;
 
-            return View("Liste", employes);
+            // Listes annexes et pagination
+            ViewBag.Departments = departments;
+            ViewBag.Genders = genders;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalItems = totalItems;
+
+            return View("Liste", paginatedEmployes);
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> Fiche(string id)
+        public async Task<IActionResult> Fiche(string id, int page = 1, int pageSize = 3)
         {
             var fiche = await _employeService.GetFicheEmployeParId(id);
             var fichepaie = await _salaireService.GetSalarySlipsParEmployeId(id);
-            ViewBag.FichePaie=fichepaie;
+
             if (fiche == null)
                 return NotFound();
 
-            return View("Fiche", fiche); //View Fiche , variable fiche
+            // Pagination
+            var totalItems = fichepaie.Count();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var paginatedFichePaie = fichepaie
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.FichePaie = paginatedFichePaie;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalItems = totalItems;
+            ViewBag.IdEmploye = id; // Pour garder l’ID lors du changement de page
+
+            return View("Fiche", fiche);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> ExportPdf(string id)
@@ -87,24 +148,43 @@ namespace NewERP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Tableau(int? mois, int? annee)
+        public async Task<IActionResult> Tableau(int? mois, int? annee, int page = 1, int pageSize = 3)
         {
-            List<SalarySlip> bulletins = new List<SalarySlip>();
+            var names = await _salaireService.GetSalarySlipNames();
+            var allBulletins = await _salaireService.GetSalarySlipsDetails(names, mois, annee);
 
-            if (mois.HasValue && annee.HasValue)
-            {
-                // Cas normal : mois + année
-                bulletins = await _salaireService.GetSalarySlipsParMoisEtAnnee(mois.Value, annee.Value);
-            }
-            else if (mois.HasValue)
-            {
-                // Cas spécial : mois seul → on récupère tous les bulletins de ce mois dans n’importe quelle année
-                bulletins = await _salaireService.GetSalarySlipsParMoisTousAnnees(mois.Value);
-            }
+            // Convertir en liste pour éviter multiples évaluations
+            var bulletinsList = allBulletins.ToList();
 
-            return View("Tableau", bulletins);
+            // Calcul des totaux sur la liste complète
+            decimal totalEarnings = bulletinsList.Sum(slip => slip.GrossPay);
+            decimal totalDeductions = bulletinsList.Sum(slip => slip.TotalDeduction);
+            decimal totalNetPay = bulletinsList.Sum(slip => slip.NetPay);
+
+            ViewBag.TotalEarnings = totalEarnings;
+            ViewBag.TotalDeductions = totalDeductions;
+            ViewBag.TotalNetPay = totalNetPay;
+
+            // Pagination
+            int totalItems = bulletinsList.Count;
+            int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            page = Math.Max(1, Math.Min(page, totalPages));
+
+            var paginatedBulletins = bulletinsList
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.Mois = mois;
+            ViewBag.Annee = annee;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalItems = totalItems;
+
+            return View("Tableau", paginatedBulletins);
         }
-
 
     }
 }

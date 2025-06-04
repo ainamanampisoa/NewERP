@@ -16,6 +16,38 @@
     </div>
 }
 
+@if (ViewBag.Succeess != null)
+{
+    <div class="alert alert-success">
+        @ViewBag.Succeess
+    </div>
+}
+
+@if (ViewBag.Imported != null)
+{
+    <div class="alert alert-info">
+        <ul>
+        @foreach (var msg in ViewBag.Imported as List<string>)
+        {
+            <li>@msg</li>
+        }
+        </ul>
+    </div>
+}
+
+@if (ViewBag.Errors != null)
+{
+    <div class="alert alert-danger">
+        <strong>Erreurs :</strong>
+        <ul>
+        @foreach (var err in ViewBag.Errors as List<string>)
+        {
+            <li>@err</li>
+        }
+        </ul>
+    </div>
+}
+
 @section Styles {
     <link href="~/css/import.css" rel="stylesheet" />
 }

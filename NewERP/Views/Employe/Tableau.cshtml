@@ -53,7 +53,23 @@
     </form>
 
     @if (Model != null && Model.Any())
-    {
+    {   
+        <div class="total-summary">
+            <span>Total général :</span>
+            <span>
+                <i class="fas fa-wallet"></i>
+                Gains: <strong>@(((decimal)ViewBag.TotalEarnings).ToString("N0")) $</strong>
+            </span>
+            <span>
+                <i class="fas fa-minus-circle"></i>
+                Déductions: <strong>@(((decimal)ViewBag.TotalDeductions).ToString("N0")) $</strong>
+            </span>
+            <span>
+                <i class="fas fa-dollar-sign"></i>
+                Salaire net: <strong>@(((decimal)ViewBag.TotalNetPay).ToString("N0")) $</strong>
+            </span>
+        </div>
+
         <div class="devis-container">
             <table class="devis-table">
                 <thead>
@@ -61,9 +77,10 @@
                         <th>ID</th>
                         <th>Nom</th>
                         <th>Statut</th>
-                        <th>Total Earning</th>
+                        <th>Brut</th>
                         <th>Total Deduction</th>
                         <th>Salaire net</th>
+                        <th>Earning</th>
                         <th>Mois</th>
                     </tr>
                 </thead>
@@ -77,6 +94,23 @@
                             <td>@slip.GrossPay.ToString("N0") $</td>
                             <td>@slip.TotalDeduction.ToString("N0") $</td>
                             <td><strong>@slip.NetPay.ToString("N0") $</strong></td>
+                            <td>
+                                @if (slip.Earnings != null && slip.Earnings.Any())
+                                {
+                                    <ul style="list-style-type:none; padding-left:0; margin:0;">
+                                        @foreach (var earning in slip.Earnings)
+                                        {
+                                            <li>
+                                                <strong>@earning.SalaryComponent</strong>: @earning.Amount.ToString("N0") $
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span>Aucun earning</span>
+                                }
+                            </td>
                             <td>@slip.StartDate.ToString("MMMM yyyy")</td>
                         </tr>
                     }
@@ -92,6 +126,27 @@
             <p>Aucun employé ne correspond à vos critères de recherche</p>
         </div>
     }
+    <div class="pagination">
+        <ul class="pagination-list">
+            @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+            {
+                if (i == (int)ViewBag.CurrentPage)
+                {
+                    <li class="active"><span>@i</span></li>
+                }
+                else
+                {
+                    <li>
+                        <a asp-action="Tableau"
+                        asp-route-page="@i"
+                        asp-route-pageSize="@ViewBag.PageSize"
+                        asp-route-mois="@ViewBag.Mois"
+                        asp-route-annee="@ViewBag.Annee">@i</a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
 </div>
 
 
