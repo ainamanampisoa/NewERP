@@ -6,7 +6,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using NewERP.Models;
 using NewERP.Helpers;
+using Newtonsoft.Json;
 
 namespace NewERP.Services
 {
@@ -19,10 +21,10 @@ namespace NewERP.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<string>> ImportData(string file1, string file2, string file3)
+       public async Task<List<string>> ImportData(string file1, string file2, string file3)
         {
             var erreurs = new List<string>();
-
+            var refsDejaVus = new HashSet<string>();
             try
             {
                 FrappeAuthHelper.AjouterAuthorization(_httpClient);
@@ -35,29 +37,28 @@ namespace NewERP.Services
                     if (colonnes.Length < 6)
                     {
                         erreurs.Add($"Erreur dans file1, ligne {i + 1} : Données insuffisantes.");
-                        continue;
+                    }
+
+                    string refId = colonnes[0].Trim();
+
+                    if (refsDejaVus.Contains(refId))
+                    {
+                        erreurs.Add($"Erreur dans file1, ligne {i + 1} : Ref en double ({refId})");
+                    }
+                    else
+                    {
+                        refsDejaVus.Add(refId);
                     }
 
                     string dateEmbauche = colonnes[4].Trim();
                     string dateNaissance = colonnes[5].Trim();
 
-                    // Formatage des dates valides
-                    if (await ValideDate(dateEmbauche))
-                    {
-                        // DateTime embaucheDate = DateTime.ParseExact(dateEmbauche, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        // colonnes[0] = embaucheDate.ToString("yyyy-MM-dd"); // Format SQL
-                    }
-                    else
+                    if (!await ValideDate(dateEmbauche))
                     {
                         erreurs.Add($"Erreur dans file1, ligne {i + 1} : Date embauche invalide ({dateEmbauche})");
                     }
 
-                    if (await ValideDate(dateNaissance))
-                    {
-                        // DateTime embaucheDate = DateTime.ParseExact(dateNaissance, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        // colonnes[0] = embaucheDate.ToString("yyyy-MM-dd"); // Format SQL
-                    }
-                    else
+                    if (!await ValideDate(dateNaissance))
                     {
                         erreurs.Add($"Erreur dans file1, ligne {i + 1} : Date naissance invalide ({dateNaissance})");
                     }
@@ -76,12 +77,7 @@ namespace NewERP.Services
 
                     string mois = colonnes[0].Trim();
 
-                    if (await ValideDate(mois))
-                    {
-                        // DateTime embaucheDate = DateTime.ParseExact(mois, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        // colonnes[0] = embaucheDate.ToString("yyyy-MM-dd"); // Format SQL
-                    }
-                    else
+                    if (!await ValideDate(mois))
                     {
                         erreurs.Add($"Erreur dans file3, ligne {i + 1} : Date invalide ({mois})");
                     }
@@ -95,7 +91,7 @@ namespace NewERP.Services
             return erreurs;
         }
 
-        public async Task<List<string>> ImportDataCsv(string file1, string file2, string file3)
+        public async Task<ImportResult> ImportDataCsv(string file1, string file2, string file3)
         {
             var result = new List<string>();
 
@@ -124,20 +120,13 @@ namespace NewERP.Services
                 }
 
                 var response = await _httpClient.PostAsync(url, content);
+                var responseString = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseString = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Json : " + responseString);
 
-                    result.Add("Succès : " + responseString);
-                }
-                else
-                {
-                    result.Add($"Erreur : {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
-                }
+                var wrappedResult = JsonConvert.DeserializeObject<ImportResponse<ImportResult>>(responseString);
+                return wrappedResult.Data;
             }
-
-            return result;
         }
 
         public async Task<bool> ValideDate(string date)

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NewERP.Services;
+using NewERP.Models;
 using System;
 using System.IO;
 using System.Text;
@@ -26,8 +27,6 @@ namespace NewERP.Controllers
             return View();
         }
 
-        [HttpPost]
-        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upload(IFormFile file1, IFormFile file2, IFormFile file3)
         {
             if (file1 == null && file2 == null && file3 == null)
@@ -35,7 +34,9 @@ namespace NewERP.Controllers
                 Console.WriteLine("Tsis oooo !!!!");
                 return View();
             }
+
             Console.WriteLine("Ato oooo !!!!");
+
             // Sauvegarde temporaire des fichiers pour traitement
             string tempPath1 = null, tempPath2 = null, tempPath3 = null;
 
@@ -61,12 +62,6 @@ namespace NewERP.Controllers
                 {
                     await file2.CopyToAsync(stream);
                 }
-
-                string[] lines = await System.IO.File.ReadAllLinesAsync(tempPath2);
-                foreach (string line in lines)
-                {
-                    Console.WriteLine("file2 " + line);
-                }
             }
 
             if (file3 != null)
@@ -76,6 +71,7 @@ namespace NewERP.Controllers
                 {
                     await file3.CopyToAsync(stream);
                 }
+
                 string[] lines = await System.IO.File.ReadAllLinesAsync(tempPath3);
                 foreach (string line in lines)
                 {
@@ -87,16 +83,28 @@ namespace NewERP.Controllers
 
             if (result.Count == 0)
             {
-                ViewBag.Imported = await _dataService.ImportDataCsv(tempPath1, tempPath2, tempPath3);
-                ViewBag.Succeess = "Données insérées avec succès";
-            }
-            else
-            {
-                ViewBag.Errors = result;
+                ImportResult importResult = await _dataService.ImportDataCsv(tempPath1, tempPath2, tempPath3);
+
+                if (importResult != null)
+                {
+                    if (importResult.Success || importResult.Message.Contains("succès"))
+                    {
+                        ViewBag.Success = importResult.Message;
+                        ViewBag.ImportDetails = importResult.Details;
+                    }
+                    else
+                    {
+                        ViewBag.Error = importResult.Message;
+                        ViewBag.ErrorType = importResult.Type;
+                        ViewBag.Advice = importResult.Advice;
+                    }
+                }
             }
 
             return View("Index");
         }
+
+
 
         [HttpPost]
         // [ValidateAntiForgeryToken]

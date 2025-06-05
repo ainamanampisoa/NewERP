@@ -1,0 +1,146 @@
+@model List<NewERP.Models.AnnualSalaryTotals>
+@{
+    ViewData["Title"] = "Tableau des employés";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link href="~/css/fournisseurs.css" rel="stylesheet" />
+}
+
+<div class="fournisseurs-container">
+    <h1 class="fournisseurs-title">
+        <i class="fas fa-poll"></i>Statistique par année
+    </h1>
+    
+    <form method="get" asp-controller="Statistique" asp-action="Tableau" class="fournisseurs-form">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Année</label>
+                <select id="annee" name="annee" class="fournisseurs-select">
+                    <option value="">-- Toutes les années --</option>
+                    @for (int an = 2022; an <= 2026; an++)
+                    {
+                        <option value="@an">@an</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group button-container">
+                <button type="submit" class="fournisseurs-button primary compact">
+                    <i class="fas fa-square-check"></i> Valider
+                </button>
+            </div>
+        </div>
+    </form>
+
+    @if (ViewBag.Erreur != null)
+    {
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Erreur :</strong> @ViewBag.Erreur
+        </div>
+    }
+
+    @if (ViewBag.TotauxAnnuels != null && ViewBag.Mensuels != null && ((List<MonthlySalaryTotals>)ViewBag.Mensuels).Any())
+    {   
+        <div class="total-summary">
+            @*<span>Totaux Annuels (@ViewBag.TotauxAnnuels.Annee) :</span>*@
+            <span>
+                <i class="fas fa-wallet"></i>
+                <strong>Annee :</strong>@ViewBag.TotauxAnnuels.Annee 
+            </span>
+            <span>
+                <i class="fas fa-wallet"></i>
+                <strong>Total brut :</strong> @ViewBag.TotauxAnnuels.TotalAnnuelGrossPay.ToString("C") $ 
+            </span>
+            <span>
+                <i class="fas fa-minus-circle"></i>
+                <strong>Total déductions :</strong> @ViewBag.TotauxAnnuels.TotalAnnuelDeduction.ToString("C") $ 
+            </span>
+            <span>
+                <i class="fas fa-dollar-sign"></i>
+                <strong>Total net :</strong> @ViewBag.TotauxAnnuels.TotalAnnuelNetPay.ToString("N2") $
+            </span>
+        </div>
+
+        <div class="devis-container">
+            <table class="devis-table">
+                <thead>
+                    <tr>
+                        <th>Mois</th>
+                        <th>Brut</th>
+                        <th>Earnings</th>
+                        <th>Déductions</th>
+                        <th>Salaire Net</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var mois in (List<MonthlySalaryTotals>)ViewBag.Mensuels)
+                    {
+                        <tr>
+                            <td><strong>@mois.NomMois</strong></td>
+                            <td>@mois.TotalGrossPay.ToString("C")</td>
+                            <td class="p-2">
+                                <ul style="list-style-type:none; padding-left:0; margin:0;">
+                                    @foreach (var earn in mois.TotalEarningsByComponent)
+                                    {
+                                        <li>@earn.Key : <strong>@earn.Value.ToString("N2") $</strong></li>
+                                    }
+                                </ul>
+                            </td>
+                            <td>@mois.TotalDeduction.ToString("C")</td>
+                            <td>
+                                <a href="@Url.Action("Details", "Statistique", new { annee = ViewBag.Annee, mois = mois.Mois, info = mois.NomMois })">
+                                    @mois.TotalNetPay.ToString("N2") $
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    }
+    else
+    {
+        <div class="empty-state">
+            <i class="fas fa-chart-bar"></i>
+            <h3>Aucune donnée disponible</h3>
+            <p>
+                @if (@ViewBag.TotauxAnnuels.Annee != 0)
+                {
+                    <text>Aucune donnée de salaire trouvée pour l'année @ViewBag.TotauxAnnuels.Annee</text>
+                }
+                else
+                {
+                    <text>Veuillez sélectionner une année pour afficher les données</text>
+                }
+            </p>
+        </div>
+    }
+    <div class="pagination">
+        <ul class="pagination-list">
+            @{
+                int totalPages = (int)ViewBag.TotalPages;
+                int currentPage = (int)ViewBag.CurrentPage;
+            }
+
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                if (i == currentPage)
+                {
+                    <li class="active"><span>@i</span></li>
+                }
+                else
+                {
+                    <li>
+                        <a href="@Url.Action("Tableau", "Statistique", new { annee = ViewBag.Annee, page = i })">
+                            @i
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</div>

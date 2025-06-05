@@ -3,6 +3,10 @@
     Layout = "_Layout";
 }
 
+<!-- <p>Debug Success: @ViewBag.Success</p>
+<p>Debug Error: @ViewBag.Error</p> -->
+
+
 @if (TempData["Message"] != null)
 {
     <div class="import-alert success">
@@ -16,33 +20,50 @@
     </div>
 }
 
-@if (ViewBag.Succeess != null)
+@if (ViewBag.Success != null)
 {
     <div class="alert alert-success">
-        @ViewBag.Succeess
+        @ViewBag.Success
     </div>
 }
 
-@if (ViewBag.Imported != null)
+
+@if (ViewBag.ImportDetails != null)
 {
     <div class="alert alert-info">
+        <strong>Détails :</strong>
         <ul>
-        @foreach (var msg in ViewBag.Imported as List<string>)
+        @foreach (var detail in ViewBag.ImportDetails as List<string>)
         {
-            <li>@msg</li>
+            <li>@detail</li>
         }
         </ul>
     </div>
 }
 
-@if (ViewBag.Errors != null)
+@if (ViewBag.Error != null)
 {
     <div class="alert alert-danger">
-        <strong>Erreurs :</strong>
-        <ul>
-        @foreach (var err in ViewBag.Errors as List<string>)
+        <strong>Erreur :</strong> @ViewBag.Error
+        @if (ViewBag.ErrorType != null)
         {
-            <li>@err</li>
+            <div>Type : @ViewBag.ErrorType</div>
+        }
+        @if (ViewBag.Advice != null)
+        {
+            <div>Conseil : @ViewBag.Advice</div>
+        }
+    </div>
+}
+
+@if (ViewBag.Resultat != null)
+{
+    <div class="alert alert-warning">
+        <strong>Résultat :</strong>
+        <ul>
+        @foreach (var line in ViewBag.Resultat as List<string>)
+        {
+            <li>@line</li>
         }
         </ul>
     </div>

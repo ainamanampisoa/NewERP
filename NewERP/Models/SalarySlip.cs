@@ -97,4 +97,27 @@ namespace NewERP.Models
         [JsonProperty("idx")]
         public int Idx { get; set; }
     }
+
+    // Classe pour représenter les totaux mensuels
+    public class MonthlySalaryTotals
+    {
+        public int Mois { get; set; }
+        public string NomMois { get; set; }
+        public decimal TotalGrossPay { get; set; }
+        public decimal TotalNetPay { get; set; }
+        public decimal TotalDeduction { get; set; }
+        public Dictionary<string, decimal> TotalEarningsByComponent { get; set; }
+        public Dictionary<string, decimal> TotalDeductionsByComponent { get; set; }
+        public int NombreBulletins { get; set; }
+    }
+
+    // Classe pour les totaux annuels
+    public class AnnualSalaryTotals
+    {
+        public int Annee { get; set; }
+        public List<MonthlySalaryTotals> TotauxMensuels { get; set; }
+        public decimal TotalAnnuelGrossPay { get; set; }
+        public decimal TotalAnnuelNetPay { get; set; }
+        public decimal TotalAnnuelDeduction { get; set; }
+    }
 }
