@@ -17,7 +17,9 @@ namespace NewERP.Services
         {
             FrappeAuthHelper.AjouterAuthorization(_httpClient);
 
-            string url = "http://erpnext.localhost:8000/api/resource/Employee?fields=[\"name\",\"employee_name\",\"date_of_birth\",\"gender\",\"date_of_joining\",\"status\",\"department\"]";
+            string fields = "[\"name\",\"employee_name\",\"date_of_birth\",\"gender\",\"date_of_joining\",\"status\",\"department\"]";
+            string url = $"http://erpnext.localhost:8000/api/resource/Employee?fields={Uri.EscapeDataString(fields)}&limit=0";
+
 
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
@@ -79,7 +81,7 @@ namespace NewERP.Services
             string filterJsonEncoded = Uri.EscapeDataString(filterJson);
             string fieldsEncoded = Uri.EscapeDataString(fields);
 
-            string url = $"http://erpnext.localhost:8000/api/resource/Employee?fields={fieldsEncoded}&filters={filterJsonEncoded}";
+            string url = $"http://erpnext.localhost:8000/api/resource/Employee?fields={fieldsEncoded}&filters={filterJsonEncoded}&limit=0";
             Console.WriteLine(url);
             // string url = $"http://erpnext.localhost:8000/api/resource/Employee?fields={fields}&filters={filterJson}";
 

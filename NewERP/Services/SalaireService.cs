@@ -30,7 +30,7 @@ namespace NewERP.Services
             string fields = "[\"name\", \"employee\", \"employee_name\", \"start_date\", \"end_date\", \"gross_pay\", \"total_deduction\", \"net_pay\", \"status\"]";
             string filters = $"[[\"employee\", \"=\", \"{employeeId}\"]]";
 
-            string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?fields={Uri.EscapeDataString(fields)}&filters={Uri.EscapeDataString(filters)}";
+            string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?fields={Uri.EscapeDataString(fields)}&filters={Uri.EscapeDataString(filters)}&limit=0";
 
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
@@ -222,7 +222,7 @@ namespace NewERP.Services
             // );
 
             string fields = Uri.EscapeDataString("[\"name\"]");
-            string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?fields={fields}";
+            string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?fields={fields}&limit=0";
             // string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?filters={filters}&fields={fields}&sid={sid}";
 
             HttpResponseMessage response = await _httpClient.GetAsync(url);

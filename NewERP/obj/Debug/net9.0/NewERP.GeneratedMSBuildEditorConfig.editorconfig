@@ -68,6 +68,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3RhdGlzdGlxdWUvRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/aina/Documents/Evaluation/NewERP/NewERP/Views/Statistique/Graphe.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3RhdGlzdGlxdWUvR3JhcGhlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/aina/Documents/Evaluation/NewERP/NewERP/Views/Statistique/Tableau.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU3RhdGlzdGlxdWUvVGFibGVhdS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

@@ -29,80 +29,95 @@ namespace NewERP.Controllers
 
         public async Task<IActionResult> Upload(IFormFile file1, IFormFile file2, IFormFile file3)
         {
-            if (file1 == null && file2 == null && file3 == null)
+            try
             {
-                Console.WriteLine("Tsis oooo !!!!");
-                return View();
-            }
-
-            Console.WriteLine("Ato oooo !!!!");
-
-            // Sauvegarde temporaire des fichiers pour traitement
-            string tempPath1 = null, tempPath2 = null, tempPath3 = null;
-
-            if (file1 != null)
-            {
-                tempPath1 = Path.GetTempFileName();
-                using (var stream = new FileStream(tempPath1, FileMode.Create))
+                if (file1 == null && file2 == null && file3 == null)
                 {
-                    await file1.CopyToAsync(stream);
+                    Console.WriteLine("Tsis oooo !!!!");
+                    return View();
                 }
 
-                string[] lines = await System.IO.File.ReadAllLinesAsync(tempPath1);
-                foreach (string line in lines)
+                Console.WriteLine("Ato oooo !!!!");
+
+                string tempPath1 = null, tempPath2 = null, tempPath3 = null;
+
+                if (file1 != null)
                 {
-                    Console.WriteLine("file1 " + line);
-                }
-            }
-
-            if (file2 != null)
-            {
-                tempPath2 = Path.GetTempFileName();
-                using (var stream = new FileStream(tempPath2, FileMode.Create))
-                {
-                    await file2.CopyToAsync(stream);
-                }
-            }
-
-            if (file3 != null)
-            {
-                tempPath3 = Path.GetTempFileName();
-                using (var stream = new FileStream(tempPath3, FileMode.Create))
-                {
-                    await file3.CopyToAsync(stream);
-                }
-
-                string[] lines = await System.IO.File.ReadAllLinesAsync(tempPath3);
-                foreach (string line in lines)
-                {
-                    Console.WriteLine("file3 " + line);
-                }
-            }
-
-            List<string> result = await _dataService.ImportData(tempPath1, tempPath2, tempPath3);
-
-            if (result.Count == 0)
-            {
-                ImportResult importResult = await _dataService.ImportDataCsv(tempPath1, tempPath2, tempPath3);
-
-                if (importResult != null)
-                {
-                    if (importResult.Success || importResult.Message.Contains("succès"))
+                    tempPath1 = Path.GetTempFileName();
+                    using (var stream = new FileStream(tempPath1, FileMode.Create))
                     {
-                        ViewBag.Success = importResult.Message;
-                        ViewBag.ImportDetails = importResult.Details;
+                        await file1.CopyToAsync(stream);
                     }
-                    else
+
+                    string[] lines = await System.IO.File.ReadAllLinesAsync(tempPath1);
+                    foreach (string line in lines)
                     {
-                        ViewBag.Error = importResult.Message;
-                        ViewBag.ErrorType = importResult.Type;
-                        ViewBag.Advice = importResult.Advice;
+                        Console.WriteLine("file1 " + line);
                     }
                 }
+
+                if (file2 != null)
+                {
+                    tempPath2 = Path.GetTempFileName();
+                    using (var stream = new FileStream(tempPath2, FileMode.Create))
+                    {
+                        await file2.CopyToAsync(stream);
+                    }
+                }
+
+                if (file3 != null)
+                {
+                    tempPath3 = Path.GetTempFileName();
+                    using (var stream = new FileStream(tempPath3, FileMode.Create))
+                    {
+                        await file3.CopyToAsync(stream);
+                    }
+
+                    string[] lines = await System.IO.File.ReadAllLinesAsync(tempPath3);
+                    foreach (string line in lines)
+                    {
+                        Console.WriteLine("file3 " + line);
+                    }
+                }
+
+                List<string> result = await _dataService.ImportData(tempPath1, tempPath2, tempPath3);
+
+                if (result.Count == 0)
+                {
+                    ImportResult importResult = await _dataService.ImportDataCsv(tempPath1, tempPath2, tempPath3);
+
+                    if (importResult != null)
+                    {
+                        if (importResult.Success || importResult.Message.Contains("succès"))
+                        {
+                            ViewBag.Success = importResult.Message;
+                            ViewBag.ImportDetails = importResult.Details;
+                        }
+                        else
+                        {
+                            ViewBag.Error = importResult.Message;
+                            ViewBag.ErrorType = importResult.Type;
+                            ViewBag.Advice = importResult.Advice;
+                        }
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // Afficher le message d'erreur et le détail technique
+                ViewBag.Error = "Une erreur est survenue lors de l'importation.";
+                ViewBag.ErrorType = ex.GetType().ToString();
+                ViewBag.Advice = ex.Message;
+
+                // Pour plus de détails (optionnel)
+                ViewBag.StackTrace = ex.StackTrace;
             }
 
             return View("Index");
         }
+
 
 
 

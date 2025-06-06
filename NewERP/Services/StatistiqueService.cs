@@ -51,10 +51,8 @@ namespace NewERP.Services
         {
             FrappeAuthHelper.AjouterAuthorization(_httpClient);
 
-            // 🔽 Appel direct à la méthode interne
             var names = await _SalaireService.GetSalarySlipNames();
 
-            // 🔽 Appel direct à la méthode interne
             var allSalaries = await _SalaireService.GetSalarySlipsDetails(names, annee: annee);
             
             if (!allSalaries.Any())

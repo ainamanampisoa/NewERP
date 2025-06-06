@@ -24,6 +24,9 @@ namespace NewERP.Controllers
         {
             try
             {
+                if(annee == 0){
+                    annee = 2025;
+                }
                 var totauxAnnuels = await _statistiqueService.GetMonthlySalaryTotals(annee);
 
                 // Pagination
@@ -137,6 +140,77 @@ namespace NewERP.Controllers
                 ViewBag.TotalItems = totalItems;
 
                 return View("Details", paginatedBulletins);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Graphe(int annee)
+        {
+            try
+            {
+                if(annee == 0){
+                    annee = 2025;
+                }
+                var totauxAnnuels = await _statistiqueService.GetMonthlySalaryTotals(annee);
+
+
+                Console.WriteLine($"=== TOTAUX POUR L'ANNÉE {totauxAnnuels.Annee} ===");
+                Console.WriteLine($"Total annuel Gross Pay: {totauxAnnuels.TotalAnnuelGrossPay:C}");
+                Console.WriteLine($"Total annuel Net Pay: {totauxAnnuels.TotalAnnuelNetPay:C}");
+                Console.WriteLine($"Total annuel Déductions: {totauxAnnuels.TotalAnnuelDeduction:C}");
+                Console.WriteLine();
+
+                foreach (var mois in totauxAnnuels.TotauxMensuels)
+                {
+                    Console.WriteLine($"=== {mois.NomMois.ToUpper()} ===");
+                    Console.WriteLine($"Nombre de bulletins: {mois.NombreBulletins}");
+                    Console.WriteLine($"Gross Pay: {mois.TotalGrossPay:C}");
+                    Console.WriteLine($"Net Pay: {mois.TotalNetPay:C}");
+                    Console.WriteLine($"Déductions: {mois.TotalDeduction:C}");
+
+                    if (mois.TotalEarningsByComponent.Any())
+                    {
+                        Console.WriteLine("Détail des gains par composant:");
+                        foreach (var earning in mois.TotalEarningsByComponent)
+                        {
+                            Console.WriteLine($"  - {earning.Key}: {earning.Value:C}");
+                        }
+                    }
+
+                    if (mois.TotalDeductionsByComponent.Any())
+                    {
+                        Console.WriteLine("Détail des déductions par composant:");
+                        foreach (var deduction in mois.TotalDeductionsByComponent)
+                        {
+                            Console.WriteLine($"  - {deduction.Key}: {deduction.Value:C}");
+                        }
+                    }
+
+                    Console.WriteLine();
+                }
+
+                ViewBag.Annee = annee;
+                ViewBag.TotauxAnnuels = totauxAnnuels;
+
+                return View("Graphe");
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.Data.Contains("ResponseContent"))
+                {
+                    var errorContent = ex.Data["ResponseContent"] as string;
+                    ViewBag.Erreur = $"Erreur HTTP : {ex.Message}\nDétails : {errorContent}";
+                }
+                else
+                {
+                    ViewBag.Erreur = $"Erreur HTTP : {ex.Message}";
+                }
+                return View("Graphe", new List<SalarySlip>());
+            }
+            catch (System.Exception ex)
+            {
+                ViewBag.Erreur = $"Erreur interne : {ex.Message}";
+                return View("Graphe", new List<SalarySlip>());
+            }
         }
     }
 }

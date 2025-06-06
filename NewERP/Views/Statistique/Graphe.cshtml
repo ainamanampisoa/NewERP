@@ -1,0 +1,174 @@
+@model List<NewERP.Models.AnnualSalaryTotals>
+
+@{
+    ViewData["Title"] = "Statistique des employés ";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/css/fournisseurs.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+@{
+    var dataGrossPay = new decimal[12];
+    var dataNetPay = new decimal[12];
+    var dataDeduction = new decimal[12];
+    var labels = new string[12];
+
+    foreach (var mois in ViewBag.TotauxAnnuels.TotauxMensuels)
+    {
+        int index = mois.Mois - 1; 
+        if (index >= 0 && index < 12)
+        {
+            labels[index] = mois.NomMois;
+            dataGrossPay[index] = mois.TotalGrossPay;
+            dataNetPay[index] = mois.TotalNetPay;
+            dataDeduction[index] = mois.TotalDeduction;
+        }
+    }
+}
+<body>
+<div class="fournisseurs-container">
+        <h1 class="fournisseurs-title">
+            <i class="fas fa-chart-line"></i> Graphe évolution des salaires
+        </h1>
+
+        <form method="get" asp-controller="Employe" asp-action="Tableau" class="fournisseurs-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Année</label>
+                        <select id="annee" name="annee" class="fournisseurs-select">
+                            <option value="">-- Toutes les années --</option>
+                            @for (int an = 2022; an <= 2026; an++)
+                            {
+                                <option value="@an">@an</option>
+                            }
+                        </select>
+                 </div>
+                    
+                            <!-- Bouton -->
+                <div class="form-group button-container">
+                    <button class="fournisseurs-button primary compact">
+                        <i class="fas fa-square-check"></i></i> Valider
+                    </button>
+                </div>
+            </div>
+        </form>
+        <canvas id="salaireChart" width="800" height="400"></canvas>
+</div>
+<script>
+    const ctx = document.getElementById('salaireChart').getContext('2d');
+
+    const labels = @Html.Raw(Json.Serialize(labels));
+    const dataGrossPay = @Html.Raw(Json.Serialize(dataGrossPay));
+    const dataNetPay = @Html.Raw(Json.Serialize(dataNetPay));
+    const dataDeduction = @Html.Raw(Json.Serialize(dataDeduction));
+
+    const salaireChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Salaire Brut',
+                    data: dataGrossPay,
+                    borderColor: 'rgb(7, 63, 100)',
+                    // backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    pointRadius: 4,
+                    fill: true,
+                    tension: 0.3
+                },
+                {
+                    label: 'Salaire Net',
+                    data: dataNetPay,
+                    borderColor: 'rgb(22, 209, 209)',
+                    // backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                    pointRadius: 4,
+                    fill: true,
+                    tension: 0.3
+                },
+                {
+                    label: 'Déductions',
+                    data: dataDeduction,
+                    borderColor: 'rgb(146, 26, 52)',
+                    // backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+                    pointRadius: 4,
+                    fill: true,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            stacked: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Évolution des salaires par année',
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    },
+                    padding: {
+                        top: 10,
+                        bottom: 30
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, " ") + ' Ar';
+                        }
+                    }
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 500000,
+                        callback: function(value) {
+                            return value.toLocaleString('fr-FR') + ' $';
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Montant ($)',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Mois',
+                        font: {
+                            weight: 'bold'
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

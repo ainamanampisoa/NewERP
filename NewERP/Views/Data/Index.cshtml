@@ -22,52 +22,38 @@
 
 @if (ViewBag.Success != null)
 {
-    <div class="alert alert-success">
+    <div class="import-alert success">
         @ViewBag.Success
-    </div>
-}
-
-
-@if (ViewBag.ImportDetails != null)
-{
-    <div class="alert alert-info">
-        <strong>Détails :</strong>
-        <ul>
-        @foreach (var detail in ViewBag.ImportDetails as List<string>)
-        {
-            <li>@detail</li>
-        }
-        </ul>
     </div>
 }
 
 @if (ViewBag.Error != null)
 {
-    <div class="alert alert-danger">
+    <div class="import-alert error">
         <strong>Erreur :</strong> @ViewBag.Error
+        <br />
         @if (ViewBag.ErrorType != null)
         {
-            <div>Type : @ViewBag.ErrorType</div>
+            <strong>Type d'erreur :</strong> @ViewBag.ErrorType
+            <br />
         }
         @if (ViewBag.Advice != null)
         {
-            <div>Conseil : @ViewBag.Advice</div>
+            <strong>Conseil :</strong> @ViewBag.Advice
+            <br />
+        }
+        @if (ViewBag.ErrorDetails != null)
+        {
+            <ul>
+                @foreach (var detail in ViewBag.ErrorDetails as List<string>)
+                {
+                    <li>@detail</li>
+                }
+            </ul>
         }
     </div>
 }
 
-@if (ViewBag.Resultat != null)
-{
-    <div class="alert alert-warning">
-        <strong>Résultat :</strong>
-        <ul>
-        @foreach (var line in ViewBag.Resultat as List<string>)
-        {
-            <li>@line</li>
-        }
-        </ul>
-    </div>
-}
 
 @section Styles {
     <link href="~/css/import.css" rel="stylesheet" />
