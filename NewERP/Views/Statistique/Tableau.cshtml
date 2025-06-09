@@ -65,7 +65,7 @@
         </div>
 
         <div class="devis-container">
-            <table class="devis-table">
+            @*<table class="devis-table">
                 <thead>
                     <tr>
                         <th>Mois</th>
@@ -98,7 +98,71 @@
                         </tr>
                     }
                 </tbody>
-            </table>
+            </table>*@
+
+            <table class="devis-table">
+                 <thead>
+                    <tr>
+                        <th>Mois</th>
+                        @foreach (var component in (List<string>)ViewBag.EarningComponents)
+                        {
+                            <th>@component</th>
+                        }
+                        @foreach (var component in (List<string>)ViewBag.DeductionComponents)
+                        {
+                            <th>@component</th>
+                        }
+                        <th>Brut</th>
+                        <th>Total Déductions</th>
+                        <th>Salaire Net</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var mois in (List<MonthlySalaryTotals>)ViewBag.Mensuels)
+                        {
+                            <tr>
+                                <td><strong>@mois.NomMois</strong></td>
+                                
+                                @* Afficher les valeurs pour chaque composant d'earnings *@
+                                @foreach (var component in (List<string>)ViewBag.EarningComponents)
+                                {
+                                    <td>
+                                        @if (mois.TotalEarningsByComponent.ContainsKey(component))
+                                        {
+                                            @mois.TotalEarningsByComponent[component].ToString("N2") <text>$</text>
+                                        }
+                                        else
+                                        {
+                                            <text>0.00 $</text>
+                                        }
+                                    </td>
+                                }
+                                
+                                @* Afficher les valeurs pour chaque composant de déductions *@
+                                @foreach (var component in (List<string>)ViewBag.DeductionComponents)
+                                {
+                                    <td>
+                                        @if (mois.TotalDeductionsByComponent.ContainsKey(component))
+                                        {
+                                            @mois.TotalDeductionsByComponent[component].ToString("N2") <text>$</text>
+                                        }
+                                        else
+                                        {
+                                            <text>0.00 $</text>
+                                        }
+                                    </td>
+                                }
+                                <td>@mois.TotalGrossPay.ToString("C")</td>
+                                <td>@mois.TotalDeduction.ToString("C")</td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Statistique", new { annee = ViewBag.Annee, mois = mois.Mois, info = mois.NomMois })">
+                                        @mois.TotalNetPay.ToString("N2") $
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
         </div>
 
     }

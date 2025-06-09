@@ -18,6 +18,10 @@
     var dataNetPay = new decimal[12];
     var dataDeduction = new decimal[12];
     var labels = new string[12];
+    
+    // Dictionnaires pour stocker les données des composants
+    var earningsComponents = new Dictionary<string, decimal[]>();
+    var deductionsComponents = new Dictionary<string, decimal[]>();
 
     foreach (var mois in ViewBag.TotauxAnnuels.TotauxMensuels)
     {
@@ -28,38 +32,60 @@
             dataGrossPay[index] = mois.TotalGrossPay;
             dataNetPay[index] = mois.TotalNetPay;
             dataDeduction[index] = mois.TotalDeduction;
+            
+            // Traitement des composants de gains
+            foreach (var earning in mois.TotalEarningsByComponent)
+            {
+                if (!earningsComponents.ContainsKey(earning.Key))
+                {
+                    earningsComponents[earning.Key] = new decimal[12];
+                }
+                earningsComponents[earning.Key][index] = earning.Value;
+            }
+            
+            // Traitement des composants de déductions
+            foreach (var deduction in mois.TotalDeductionsByComponent)
+            {
+                if (!deductionsComponents.ContainsKey(deduction.Key))
+                {
+                    deductionsComponents[deduction.Key] = new decimal[12];
+                }
+                deductionsComponents[deduction.Key][index] = deduction.Value;
+            }
         }
     }
 }
+
 <body>
 <div class="fournisseurs-container">
-        <h1 class="fournisseurs-title">
-            <i class="fas fa-chart-line"></i> Graphe évolution des salaires
-        </h1>
+    <h1 class="fournisseurs-title">
+        <i class="fas fa-chart-line"></i> Graphe évolution des salaires
+    </h1>
 
-        <form method="get" asp-controller="Employe" asp-action="Tableau" class="fournisseurs-form">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>Année</label>
-                        <select id="annee" name="annee" class="fournisseurs-select">
-                            <option value="">-- Toutes les années --</option>
-                            @for (int an = 2022; an <= 2026; an++)
-                            {
-                                <option value="@an">@an</option>
-                            }
-                        </select>
-                 </div>
-                    
-                            <!-- Bouton -->
-                <div class="form-group button-container">
-                    <button class="fournisseurs-button primary compact">
-                        <i class="fas fa-square-check"></i></i> Valider
-                    </button>
-                </div>
+    <form method="get" asp-controller="Statistique" asp-action="Graphe" class="fournisseurs-form">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Année</label>
+                <select id="annee" name="annee" class="fournisseurs-select">
+                    <option value="">-- Toutes les années --</option>
+                    @for (int an = 2022; an <= 2026; an++)
+                    {
+                        <option value="@an">@an</option>
+                    }
+                </select>
             </div>
-        </form>
-        <canvas id="salaireChart" width="800" height="400"></canvas>
+            
+            <div class="form-group button-container">
+                <button class="fournisseurs-button primary compact">
+                    <i class="fas fa-square-check"></i> Valider
+                </button>
+            </div>
+        </div>
+    </form>
+    
+    <canvas id="salaireChart" width="800" height="400"></canvas>
 </div>
+
 <script>
     const ctx = document.getElementById('salaireChart').getContext('2d');
 
@@ -67,75 +93,115 @@
     const dataGrossPay = @Html.Raw(Json.Serialize(dataGrossPay));
     const dataNetPay = @Html.Raw(Json.Serialize(dataNetPay));
     const dataDeduction = @Html.Raw(Json.Serialize(dataDeduction));
+    
+    const earningsComponents = @Html.Raw(Json.Serialize(earningsComponents));
+    const deductionsComponents = @Html.Raw(Json.Serialize(deductionsComponents));
+
+    // Couleurs simples
+    const colors = [
+        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
+        '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF',
+        '#4BC0C0', '#FF6384', '#36A2EB', '#FFCE56'
+    ];
+
+    // Création de tous les datasets
+    const datasets = [];
+
+    // 1. Totaux principaux (lignes plus épaisses)
+    datasets.push({
+        label: 'Salaire Brut',
+        data: dataGrossPay,
+        borderColor: '#2563eb',
+        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+        borderWidth: 3,
+        pointRadius: 4,
+        tension: 0.4
+    });
+
+    datasets.push({
+        label: 'Salaire Net',
+        data: dataNetPay,
+        borderColor: '#059669',
+        backgroundColor: 'rgba(5, 150, 105, 0.1)',
+        borderWidth: 3,
+        pointRadius: 4,
+        tension: 0.4
+    });
+
+    datasets.push({
+        label: 'Déductions',
+        data: dataDeduction,
+        borderColor: '#dc2626',
+        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+        borderWidth: 3,
+        pointRadius: 4,
+        tension: 0.4
+    });
+
+    // 2. Composants de gains
+    let colorIndex = 0;
+    Object.entries(earningsComponents).forEach(([name, data]) => {
+        datasets.push({
+            label: name + ' (Gain)',
+            data: data,
+            borderColor: colors[colorIndex % colors.length],
+            backgroundColor: colors[colorIndex % colors.length] + '20',
+            borderWidth: 2,
+            pointRadius: 3,
+            borderDash: [5, 5],
+            tension: 0.4
+        });
+        colorIndex++;
+    });
+
+    // 3. Composants de déductions
+    Object.entries(deductionsComponents).forEach(([name, data]) => {
+        datasets.push({
+            label: name + ' (Déduction)',
+            data: data,
+            borderColor: colors[colorIndex % colors.length],
+            backgroundColor: colors[colorIndex % colors.length] + '20',
+            borderWidth: 2,
+            pointRadius: 3,
+            borderDash: [3, 3],
+            tension: 0.4
+        });
+        colorIndex++;
+    });
 
     const salaireChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
-            datasets: [
-                {
-                    label: 'Salaire Brut',
-                    data: dataGrossPay,
-                    borderColor: 'rgb(7, 63, 100)',
-                    // backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    pointBackgroundColor: 'rgba(54, 162, 235, 1)',
-                    pointRadius: 4,
-                    fill: true,
-                    tension: 0.3
-                },
-                {
-                    label: 'Salaire Net',
-                    data: dataNetPay,
-                    borderColor: 'rgb(22, 209, 209)',
-                    // backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-                    pointRadius: 4,
-                    fill: true,
-                    tension: 0.3
-                },
-                {
-                    label: 'Déductions',
-                    data: dataDeduction,
-                    borderColor: 'rgb(146, 26, 52)',
-                    // backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    pointBackgroundColor: 'rgba(255, 99, 132, 1)',
-                    pointRadius: 4,
-                    fill: true,
-                    tension: 0.3
-                }
-            ]
+            datasets: datasets
         },
         options: {
             responsive: true,
-            interaction: {
-                mode: 'index',
-                intersect: false
-            },
-            stacked: false,
             plugins: {
                 title: {
                     display: true,
-                    text: 'Évolution des salaires par année',
+                    text: 'Évolution des salaires et composants',
                     font: {
-                        size: 18,
+                        size: 16,
                         weight: 'bold'
                     },
-                    padding: {
-                        top: 10,
-                        bottom: 30
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.dataset.label + ': ' + context.formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, " ") + ' Ar';
-                        }
-                    }
+                    padding: 20
                 },
                 legend: {
                     position: 'top',
                     labels: {
-                        usePointStyle: true
+                        usePointStyle: true,
+                        padding: 15
+                    }
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + 
+                                   context.formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, " ") + ' Ar';
+                        }
                     }
                 }
             },
@@ -143,14 +209,15 @@
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 500000,
+                        // stepSize: 2500000,    // Pas de 2 500 000 Ar
                         callback: function(value) {
-                            return value.toLocaleString('fr-FR') + ' $';
+                            // Format avec espaces pour les milliers
+                            return value.toLocaleString('fr-FR') + ' Ar';
                         }
                     },
                     title: {
                         display: true,
-                        text: 'Montant ($)',
+                        text: 'Montant (Ar)',
                         font: {
                             weight: 'bold'
                         }
@@ -165,6 +232,10 @@
                         }
                     }
                 }
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false
             }
         }
     });

@@ -31,7 +31,7 @@
         </div>
 
         <div class="devis-container">
-            <table class="devis-table">
+            @*<table class="devis-table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -71,6 +71,54 @@
                                     <span>Aucun earning</span>
                                 }
                             </td>
+                            <td>@slip.StartDate.ToString("MMMM yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>*@
+            <table class="devis-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Statut</th>
+                        @foreach (var component in (List<string>)ViewBag.EarningComponents)
+                        {
+                            <th>@component</th>
+                        }
+                        <th>Brut</th>
+                        <th>Total Déduction</th>
+                        <th>Salaire Net</th>
+                        <th>Mois</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var slip in Model)
+                    {
+                        <tr>
+                            <td>@slip.Name</td>
+                            <td>@slip.EmployeeName</td>
+                            <td>
+                                <span class="status-badge success">@slip.Status</span>
+                            </td>
+
+                            @foreach (var component in (List<string>)ViewBag.EarningComponents)
+                            {
+                                var earning = slip.Earnings?.FirstOrDefault(e => e.SalaryComponent == component);
+                                <td>
+                                    @if (earning != null)
+                                    {
+                                        @earning.Amount.ToString("N0") <text>$</text>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                            }
+                            <td>@slip.GrossPay.ToString("N0") $</td>
+                            <td>@slip.TotalDeduction.ToString("N0") $</td>
+                            <td><strong>@slip.NetPay.ToString("N0") $</strong></td>
                             <td>@slip.StartDate.ToString("MMMM yyyy")</td>
                         </tr>
                     }

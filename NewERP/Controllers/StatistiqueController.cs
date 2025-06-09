@@ -38,6 +38,20 @@ namespace NewERP.Controllers
                     .Take(pageSize)
                     .ToList();
 
+                // Récupérer tous les composants uniques d'earnings
+                var allEarningComponents = totauxAnnuels.TotauxMensuels
+                    .SelectMany(m => m.TotalEarningsByComponent.Keys)
+                    .Distinct()
+                    .OrderBy(k => k)
+                    .ToList();
+
+                // Récupérer tous les composants uniques de déductions
+                var allDeductionComponents = totauxAnnuels.TotauxMensuels
+                    .SelectMany(m => m.TotalDeductionsByComponent.Keys)
+                    .Distinct()
+                    .OrderBy(k => k)
+                    .ToList();
+                    
                 Console.WriteLine($"=== TOTAUX POUR L'ANNÉE {totauxAnnuels.Annee} ===");
                 Console.WriteLine($"Total annuel Gross Pay: {totauxAnnuels.TotalAnnuelGrossPay:C}");
                 Console.WriteLine($"Total annuel Net Pay: {totauxAnnuels.TotalAnnuelNetPay:C}");
@@ -80,6 +94,8 @@ namespace NewERP.Controllers
                 ViewBag.TotalPages = totalPages;
                 ViewBag.PageSize = pageSize;
                 ViewBag.TotalItems = totalItems;
+                ViewBag.EarningComponents = allEarningComponents; // Nouveau
+                ViewBag.DeductionComponents = allDeductionComponents; // Nouveau
 
                 return View("Tableau");
             }
@@ -117,9 +133,18 @@ namespace NewERP.Controllers
                 decimal totalDeductions = bulletinsList.Sum(slip => slip.TotalDeduction);
                 decimal totalNetPay = bulletinsList.Sum(slip => slip.NetPay);
 
+                 // Récupérer tous les composants uniques d'earnings pour les colonnes
+                var allEarningComponents = bulletinsList
+                    .SelectMany(s => s.Earnings)
+                    .Select(e => e.SalaryComponent)
+                    .Distinct()
+                    .OrderBy(c => c)
+                    .ToList();
+
                 ViewBag.TotalEarnings = totalEarnings;
                 ViewBag.TotalDeductions = totalDeductions;
                 ViewBag.TotalNetPay = totalNetPay;
+                ViewBag.EarningComponents = allEarningComponents; // Nouveau
 
                 // Pagination
                 int totalItems = bulletinsList.Count;

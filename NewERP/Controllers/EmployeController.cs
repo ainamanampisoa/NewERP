@@ -169,10 +169,19 @@ namespace NewERP.Controllers
                         g => (decimal)g.Sum(e => e.Amount)
                     );
 
+            // Récupérer tous les composants uniques d'earnings pour les colonnes
+            var allEarningComponents = bulletinsList
+                .SelectMany(s => s.Earnings)
+                .Select(e => e.SalaryComponent)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+
             ViewBag.TotalEarnings = totalEarnings;
             ViewBag.TotalDeductions = totalDeductions;
             ViewBag.TotalNetPay = totalNetPay;
             ViewBag.TotalByComponent = totalEarningsByComponent;
+            ViewBag.EarningComponents = allEarningComponents; // Nouveau
 
             // Pagination
             int totalItems = bulletinsList.Count;

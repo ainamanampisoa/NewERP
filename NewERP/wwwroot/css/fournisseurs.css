@@ -310,7 +310,59 @@
             font-family: 'Courier New', monospace;
             font-weight: 500;
         }
+        /* ================ TABLEAU AVEC DEFILEMENT HORIZONTAL ================ */
+        .devis-container {
+            margin: 1.75rem 0;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-200);
+            box-shadow: var(--shadow-sm);
+            background: var(--bg-50);
+            overflow-x: auto; /* Ajout du défilement horizontal */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling sur iOS */
+            max-width: 100%; /* Empêche le dépassement du conteneur parent */
+        }
 
+        .devis-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 900px; /* Largeur minimale pour forcer le défilement si nécessaire */
+        }
+
+        /* Conserver le header fixe lors du défilement */
+        .devis-table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: linear-gradient(to bottom, #f8fafc, #edf2f7);
+        }
+
+        /* Améliorer la visibilité lors du défilement */
+        .devis-table th {
+            position: sticky;
+            top: 0;
+            background: inherit; /* Hérite du fond du thead */
+        }
+
+        /* Style pour la barre de défilement (optionnel) */
+        .devis-container::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+
+        .devis-container::-webkit-scrollbar-track {
+            background: var(--bg-100);
+            border-radius: 4px;
+        }
+
+        .devis-container::-webkit-scrollbar-thumb {
+            background: var(--primary-400);
+            border-radius: 4px;
+        }
+
+        .devis-container::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-500);
+        }
         /* Status badges */
         .status-badge {
             display: inline-flex;
@@ -581,3 +633,40 @@
 .total-summary i {
     margin-right: 5px;
 }
+
+.devis-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.devis-table th, .devis-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.devis-table thead th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.status-badge.success {
+    color: #155724;
+    background-color: #d4edda;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+.status-badge.warning {
+    color: #856404;
+    background-color: #fff3cd;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+

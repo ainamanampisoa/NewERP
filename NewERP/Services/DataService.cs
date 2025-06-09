@@ -67,28 +67,28 @@ namespace NewERP.Services
                 }
 
 
-                var lignesFichier2 = File.ReadAllLines(file2);
-                for (int i = 1; i < lignesFichier2.Length; i++)
-                {
-                    var colonnes = lignesFichier2[i].Split(',');
+                // var lignesFichier2 = File.ReadAllLines(file2);
+                // for (int i = 1; i < lignesFichier2.Length; i++)
+                // {
+                //     var colonnes = lignesFichier2[i].Split(',');
 
-                    if (colonnes.Length < 5)
-                    {
-                        erreurs.Add($"Erreur dans file2, ligne {i + 1} : Données insuffisantes.");
-                    }
+                //     if (colonnes.Length < 5)
+                //     {
+                //         erreurs.Add($"Erreur dans file2, ligne {i + 1} : Données insuffisantes.");
+                //     }
 
-                    string refId = colonnes[2].Trim();
+                //     string refId = colonnes[2].Trim();
 
-                    if (abbrDejaVus.Contains(refId))
-                    {
-                        erreurs.Add($"Erreur dans file2, ligne {i + 1} : Abbreviation deja vu ({refId})");
-                    }
-                    else
-                    {
-                        abbrDejaVus.Add(refId);
-                    }
+                //     if (abbrDejaVus.Contains(refId))
+                //     {
+                //         erreurs.Add($"Erreur dans file2, ligne {i + 1} : Abbreviation deja vu ({refId})");
+                //     }
+                //     else
+                //     {
+                //         abbrDejaVus.Add(refId);
+                //     }
                     
-                }
+                // }
 
                 var lignesFichier3 = File.ReadAllLines(file3);
                 for (int i = 1; i < lignesFichier3.Length; i++)
