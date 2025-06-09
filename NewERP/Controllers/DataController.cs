@@ -101,6 +101,8 @@ namespace NewERP.Controllers
                         }
                     }
 
+                }else{
+                    ViewBag.Result=result;
                 }
 
             }

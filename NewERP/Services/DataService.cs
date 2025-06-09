@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using NewERP.Models;
 using NewERP.Helpers;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace NewERP.Services
 {
@@ -25,6 +26,7 @@ namespace NewERP.Services
         {
             var erreurs = new List<string>();
             var refsDejaVus = new HashSet<string>();
+            var abbrDejaVus = new HashSet<string>();
             try
             {
                 FrappeAuthHelper.AjouterAuthorization(_httpClient);
@@ -64,12 +66,36 @@ namespace NewERP.Services
                     }
                 }
 
+
+                var lignesFichier2 = File.ReadAllLines(file2);
+                for (int i = 1; i < lignesFichier2.Length; i++)
+                {
+                    var colonnes = lignesFichier2[i].Split(',');
+
+                    if (colonnes.Length < 5)
+                    {
+                        erreurs.Add($"Erreur dans file2, ligne {i + 1} : Données insuffisantes.");
+                    }
+
+                    string refId = colonnes[2].Trim();
+
+                    if (abbrDejaVus.Contains(refId))
+                    {
+                        erreurs.Add($"Erreur dans file2, ligne {i + 1} : Abbreviation deja vu ({refId})");
+                    }
+                    else
+                    {
+                        abbrDejaVus.Add(refId);
+                    }
+                    
+                }
+
                 var lignesFichier3 = File.ReadAllLines(file3);
                 for (int i = 1; i < lignesFichier3.Length; i++)
                 {
                     var colonnes = lignesFichier3[i].Split(',');
 
-                    if (colonnes.Length < 1)
+                    if (colonnes.Length < 3)
                     {
                         erreurs.Add($"Erreur dans file3, ligne {i + 1} : Données insuffisantes.");
                         continue;
@@ -80,6 +106,12 @@ namespace NewERP.Services
                     if (!await ValideDate(mois))
                     {
                         erreurs.Add($"Erreur dans file3, ligne {i + 1} : Date invalide ({mois})");
+                    }
+
+                    string salaire = colonnes[2].Trim();
+                    if (!float.TryParse(salaire, NumberStyles.Float, CultureInfo.InvariantCulture, out float montant))
+                    {
+                        erreurs.Add($"Erreur dans file3, ligne {i + 1} : Nombre invalide ({salaire})");
                     }
                 }
             }

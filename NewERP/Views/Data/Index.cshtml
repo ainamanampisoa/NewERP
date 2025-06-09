@@ -54,6 +54,17 @@
     </div>
 }
 
+@if (ViewBag.Result != null)
+{
+    <div class="import-alert error">
+    <ul>
+        @foreach (var err in ViewBag.Result as List<string>)
+        {
+             <li>@err</li>
+        }
+    </ul>
+    </div>
+}
 
 @section Styles {
     <link href="~/css/import.css" rel="stylesheet" />

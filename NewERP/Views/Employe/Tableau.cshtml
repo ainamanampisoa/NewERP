@@ -68,6 +68,18 @@
                 <i class="fas fa-dollar-sign"></i>
                 Salaire net: <strong>@(((decimal)ViewBag.TotalNetPay).ToString("N0")) $</strong>
             </span>
+            
+            @*@if (ViewBag.TotalByComponent != null)
+            {
+                foreach (var component in (Dictionary<string, decimal>)ViewBag.TotalByComponent)
+                {
+                    <span>
+                        <i class="fas fa-dollar-sign"></i>
+                        @component.Key :
+                        <strong>@component.Value.ToString("N0") $</strong>
+                    </span>
+                }
+            }*@
         </div>
 
         <div class="devis-container">

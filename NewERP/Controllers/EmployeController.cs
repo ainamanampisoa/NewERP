@@ -161,9 +161,18 @@ namespace NewERP.Controllers
             decimal totalDeductions = bulletinsList.Sum(slip => slip.TotalDeduction);
             decimal totalNetPay = bulletinsList.Sum(slip => slip.NetPay);
 
+            var totalEarningsByComponent = bulletinsList
+                    .SelectMany(s => s.Earnings)
+                    .GroupBy(e => e.SalaryComponent)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => (decimal)g.Sum(e => e.Amount)
+                    );
+
             ViewBag.TotalEarnings = totalEarnings;
             ViewBag.TotalDeductions = totalDeductions;
             ViewBag.TotalNetPay = totalNetPay;
+            ViewBag.TotalByComponent = totalEarningsByComponent;
 
             // Pagination
             int totalItems = bulletinsList.Count;
