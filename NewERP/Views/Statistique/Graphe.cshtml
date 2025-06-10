@@ -19,7 +19,7 @@
     var dataDeduction = new decimal[12];
     var labels = new string[12];
     
-    // Dictionnaires pour stocker les données des composants
+
     var earningsComponents = new Dictionary<string, decimal[]>();
     var deductionsComponents = new Dictionary<string, decimal[]>();
 
@@ -33,7 +33,7 @@
             dataNetPay[index] = mois.TotalNetPay;
             dataDeduction[index] = mois.TotalDeduction;
             
-            // Traitement des composants de gains
+
             foreach (var earning in mois.TotalEarningsByComponent)
             {
                 if (!earningsComponents.ContainsKey(earning.Key))
@@ -43,7 +43,7 @@
                 earningsComponents[earning.Key][index] = earning.Value;
             }
             
-            // Traitement des composants de déductions
+
             foreach (var deduction in mois.TotalDeductionsByComponent)
             {
                 if (!deductionsComponents.ContainsKey(deduction.Key))
@@ -104,7 +104,7 @@
         '#4BC0C0', '#FF6384', '#36A2EB', '#FFCE56'
     ];
 
-    // Création de tous les datasets
+ 
     const datasets = [];
 
     // 1. Totaux principaux (lignes plus épaisses)
@@ -200,7 +200,7 @@
                     callbacks: {
                         label: function(context) {
                             return context.dataset.label + ': ' + 
-                                   context.formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, " ") + ' Ar';
+                                   context.formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, " ") + ' $';
                         }
                     }
                 }
@@ -212,12 +212,12 @@
                         // stepSize: 2500000,    // Pas de 2 500 000 Ar
                         callback: function(value) {
                             // Format avec espaces pour les milliers
-                            return value.toLocaleString('fr-FR') + ' Ar';
+                            return value.toLocaleString('fr-FR') + ' $';
                         }
                     },
                     title: {
                         display: true,
-                        text: 'Montant (Ar)',
+                        text: 'Montant ($)',
                         font: {
                             weight: 'bold'
                         }

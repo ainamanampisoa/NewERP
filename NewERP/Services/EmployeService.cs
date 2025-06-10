@@ -1,6 +1,9 @@
 using Newtonsoft.Json.Linq;
 using NewERP.Models;
 using NewERP.Helpers;
+using CsvHelper;
+using System.Globalization;
+using System.IO;
 
 namespace NewERP.Services
 {
@@ -32,6 +35,40 @@ namespace NewERP.Services
             return data;
         }
 
+        public async Task<bool> exportCsv()
+        {
+            List<Employe> employees = await GetAllEmployes();
+
+            string path = "/home/aina/Documents/Evaluation/CSV/employees.csv";
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+            using (var writer = new StreamWriter(path))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            {
+                // Écrire les en-têtes
+                csv.WriteField("ID");
+                csv.WriteField("Nom");
+                csv.WriteField("Statut");
+                csv.WriteField("Genre");
+                csv.WriteField("Date de naissance");
+                csv.WriteField("Date Embauche");
+                csv.NextRecord();
+
+                // Écrire les données
+                foreach (var employee in employees)
+                {
+                    csv.WriteField(employee.name);
+                    csv.WriteField(employee.employee_name);
+                    csv.WriteField(employee.status);
+                    csv.WriteField(employee.gender);
+                    csv.WriteField(employee.date_of_birth?.ToString("yyyy-MM-dd") ?? "");
+                    csv.WriteField(employee.date_of_joining?.ToString("yyyy-MM-dd") ?? "");
+                    csv.NextRecord();
+                }
+            }
+            
+            return true;
+        }
         // public async Task<bool> UpdateEmploye(string id, Employe employe)
         // {
         //     FrappeAuthHelper.AjouterAuthorization(_httpClient);

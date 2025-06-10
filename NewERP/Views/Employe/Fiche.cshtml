@@ -62,7 +62,7 @@
             <table class="devis-table">
                 <thead>
                     <tr>
-                        <th>Nom fiche</th>
+                       @* <th>Nom fiche</th>*@
                         <th>Période</th>
                         <th>Salaire brut</th>
                         <th>Déductions</th>
@@ -75,7 +75,7 @@
                     @foreach (var fiche in ViewBag.FichePaie)
                     {
                         <tr>
-                            <td>@fiche.Name</td>
+                            @*<td>@fiche.Name</td>*@
                             <td>@fiche.StartDate.ToString("dd/MM/yyyy") - @fiche.EndDate.ToString("dd/MM/yyyy")</td>
                             <td>@fiche.GrossPay.ToString("N0")$</td>
                             <td>@fiche.TotalDeduction.ToString("N0")$</td>
@@ -88,6 +88,16 @@
                                 class="action-btn view-btn" 
                                 title="PDF">
                                     <i class="fas fa-file-pdf"></i>PDF
+                                </a>
+                                
+                                <br>
+
+                                <a asp-controller="Export" 
+                                asp-action="Csv" 
+                                asp-route-employeeId="@Model.name" 
+                                class="action-btn view-btn" 
+                                title="CSV">
+                                <i class="fa-solid fa-file-csv"></i>CSV
                                 </a>
                             </td>
                        </tr>

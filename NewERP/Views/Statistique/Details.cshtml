@@ -15,19 +15,54 @@
     @if (Model != null && Model.Any())
     {   
         <div class="total-summary">
-            <span>Total général :</span>
-            <span>
-                <i class="fas fa-wallet"></i>
-                Gains: <strong>@(((decimal)ViewBag.TotalEarnings).ToString("N0")) $</strong>
-            </span>
-            <span>
-                <i class="fas fa-minus-circle"></i>
-                Déductions: <strong>@(((decimal)ViewBag.TotalDeductions).ToString("N0")) $</strong>
-            </span>
-            <span>
-                <i class="fas fa-dollar-sign"></i>
-                Salaire net: <strong>@(((decimal)ViewBag.TotalNetPay).ToString("N0")) $</strong>
-            </span>
+            <div class="summary-section">
+                <h3 class="summary-title">Total général</h3>
+                <div class="summary-item">
+                    <i class="fas fa-wallet"></i>
+                    <span>Earnings:</span>
+                    <strong>@(((decimal)ViewBag.TotalEarnings).ToString("N0")) $</strong>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-minus-circle"></i>
+                    <span>Deductions:</span>
+                    <strong>@(((decimal)ViewBag.TotalDeductions).ToString("N0")) $</strong>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Salaire net:</span>
+                    <strong>@(((decimal)ViewBag.TotalNetPay).ToString("N0")) $</strong>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h3 class="summary-title">Earnings</h3>
+                @if (ViewBag.TotalByComponent != null)
+                {
+                    foreach (var component in (Dictionary<string, decimal>)ViewBag.TotalByComponent)
+                    {
+                        <div class="summary-item">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>@component.Key:</span>
+                            <strong>@component.Value.ToString("N0") $</strong>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="summary-section">
+                <h3 class="summary-title">Deductions</h3>
+                @if (ViewBag.TotalByDec != null)
+                {
+                    foreach (var component in (Dictionary<string, decimal>)ViewBag.TotalByDec)
+                    {
+                        <div class="summary-item">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>@component.Key:</span>
+                            <strong>@component.Value.ToString("N0") $</strong>
+                        </div>
+                    }
+                }
+            </div>
         </div>
 
         <div class="devis-container">
@@ -79,10 +114,14 @@
             <table class="devis-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        @*<th>ID</th>*@
                         <th>Nom</th>
                         <th>Statut</th>
                         @foreach (var component in (List<string>)ViewBag.EarningComponents)
+                        {
+                            <th>@component</th>
+                        }
+                        @foreach (var component in (List<string>)ViewBag.DeductionComponents)
                         {
                             <th>@component</th>
                         }
@@ -96,7 +135,7 @@
                     @foreach (var slip in Model)
                     {
                         <tr>
-                            <td>@slip.Name</td>
+                            @*<td>@slip.Name</td>*@
                             <td>@slip.EmployeeName</td>
                             <td>
                                 <span class="status-badge success">@slip.Status</span>
@@ -115,6 +154,22 @@
                                         <span class="text-muted">-</span>
                                     }
                                 </td>
+                            }
+                                     
+                             @* Afficher les valeurs pour chaque composant de déductions *@
+                            @foreach (var component in (List<string>)ViewBag.DeductionComponents)
+                            {
+                                var earning = slip.Deductions?.FirstOrDefault(e => e.SalaryComponent == component);
+                                    <td>
+                                        @if (earning != null)
+                                        {
+                                            @earning.Amount.ToString("N0") <text>$</text>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">-</span>
+                                        }
+                                    </td>
                             }
                             <td>@slip.GrossPay.ToString("N0") $</td>
                             <td>@slip.TotalDeduction.ToString("N0") $</td>

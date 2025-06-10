@@ -149,5 +149,217 @@ namespace NewERP.Services
                 TotalAnnuelDeduction = totauxMensuels.Sum(t => t.TotalDeduction)
             };
         }
+
+        public async Task<AnnualSalaryTotals> GetMonthlySalaryTotalsAnnee(int? annee = null)
+        {
+            FrappeAuthHelper.AjouterAuthorization(_httpClient);
+
+            var names = await _SalaireService.GetSalarySlipNames();
+          
+            if (!annee.HasValue)
+            {
+                return await GetAllYearsSalaryTotals();
+            }
+
+            
+            var allSalaries = await _SalaireService.GetSalarySlipsDetails(names,annee: annee.Value);
+            
+            if (!allSalaries.Any())
+            {
+                return new AnnualSalaryTotals
+                {
+                    Annee = annee.Value,
+                    TotauxMensuels = new List<MonthlySalaryTotals>(),
+                    TotalAnnuelGrossPay = 0,
+                    TotalAnnuelNetPay = 0,
+                    TotalAnnuelDeduction = 0
+                };
+            }
+
+            // Grouper par mois et calculer les totaux
+            var monthlyGroups = allSalaries
+                .GroupBy(s => s.StartDate.Month)
+                .OrderBy(g => g.Key)
+                .ToList();
+
+            var totauxMensuels = new List<MonthlySalaryTotals>();
+
+            foreach (var monthGroup in monthlyGroups)
+            {
+                var mois = monthGroup.Key;
+                var salariesDuMois = monthGroup.ToList();
+
+                // Calculer les totaux pour ce mois
+                var totalGrossPay = salariesDuMois.Sum(s => s.GrossPay);
+                var totalNetPay = salariesDuMois.Sum(s => s.NetPay);
+                var totalDeduction = salariesDuMois.Sum(s => s.TotalDeduction);
+
+                // Calculer les totaux par composant d'earnings
+                var totalEarningsByComponent = salariesDuMois
+                    .Where(s => s.Earnings != null)
+                    .SelectMany(s => s.Earnings)
+                    .GroupBy(e => e.SalaryComponent)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Sum(e => e.Amount)
+                    );
+
+                // Calculer les totaux par composant de déductions
+                var totalDeductionsByComponent = salariesDuMois
+                    .Where(s => s.Deductions != null)
+                    .SelectMany(s => s.Deductions)
+                    .GroupBy(d => d.SalaryComponent)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Sum(d => d.Amount)
+                    );
+
+                totauxMensuels.Add(new MonthlySalaryTotals
+                {
+                    Mois = mois,
+                    NomMois = GetNomMois(mois),
+                    TotalGrossPay = totalGrossPay,
+                    TotalNetPay = totalNetPay,
+                    TotalDeduction = totalDeduction,
+                    TotalEarningsByComponent = totalEarningsByComponent,
+                    TotalDeductionsByComponent = totalDeductionsByComponent,
+                    NombreBulletins = salariesDuMois.Count
+                });
+            }
+
+            // Ajouter les mois manquants avec des totaux à zéro
+            for (int i = 1; i <= 12; i++)
+            {
+                if (!totauxMensuels.Any(t => t.Mois == i))
+                {
+                    totauxMensuels.Add(new MonthlySalaryTotals
+                    {
+                        Mois = i,
+                        NomMois = GetNomMois(i),
+                        TotalGrossPay = 0,
+                        TotalNetPay = 0,
+                        TotalDeduction = 0,
+                        TotalEarningsByComponent = new Dictionary<string, decimal>(),
+                        TotalDeductionsByComponent = new Dictionary<string, decimal>(),
+                        NombreBulletins = 0
+                    });
+                }
+            }
+
+            // Trier par mois
+            totauxMensuels = totauxMensuels.OrderBy(t => t.Mois).ToList();
+
+            return new AnnualSalaryTotals
+            {
+                Annee = annee.Value,
+                TotauxMensuels = totauxMensuels,
+                TotalAnnuelGrossPay = totauxMensuels.Sum(t => t.TotalGrossPay),
+                TotalAnnuelNetPay = totauxMensuels.Sum(t => t.TotalNetPay),
+                TotalAnnuelDeduction = totauxMensuels.Sum(t => t.TotalDeduction)
+            };
+        }
+
+     
+        public async Task<AnnualSalaryTotals> GetAllYearsSalaryTotals()
+        {
+            var names = await _SalaireService.GetSalarySlipNames();
+
+           
+            var allSalaries = await _SalaireService.GetSalarySlipsDetails(names);
+            
+            if (!allSalaries.Any())
+            {
+                return new AnnualSalaryTotals
+                {
+                    Annee = 0, 
+                    TotauxMensuels = new List<MonthlySalaryTotals>(),
+                    TotalAnnuelGrossPay = 0,
+                    TotalAnnuelNetPay = 0,
+                    TotalAnnuelDeduction = 0
+                };
+            }
+
+            // Grouper directement par mois (toutes années confondues)
+            var monthlyGroups = allSalaries
+                .GroupBy(s => s.StartDate.Month)
+                .OrderBy(g => g.Key)
+                .ToList();
+
+            var totauxMensuels = new List<MonthlySalaryTotals>();
+
+            foreach (var monthGroup in monthlyGroups)
+            {
+                var mois = monthGroup.Key;
+                var salariesDuMois = monthGroup.ToList();
+
+                // Calculer les totaux pour ce mois (toutes années confondues)
+                var totalGrossPay = salariesDuMois.Sum(s => s.GrossPay);
+                var totalNetPay = salariesDuMois.Sum(s => s.NetPay);
+                var totalDeduction = salariesDuMois.Sum(s => s.TotalDeduction);
+
+                // Calculer les totaux par composant d'earnings
+                var totalEarningsByComponent = salariesDuMois
+                    .Where(s => s.Earnings != null)
+                    .SelectMany(s => s.Earnings)
+                    .GroupBy(e => e.SalaryComponent)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Sum(e => e.Amount)
+                    );
+
+                // Calculer les totaux par composant de déductions
+                var totalDeductionsByComponent = salariesDuMois
+                    .Where(s => s.Deductions != null)
+                    .SelectMany(s => s.Deductions)
+                    .GroupBy(d => d.SalaryComponent)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.Sum(d => d.Amount)
+                    );
+
+                totauxMensuels.Add(new MonthlySalaryTotals
+                {
+                    Mois = mois,
+                    NomMois = GetNomMois(mois),
+                    TotalGrossPay = totalGrossPay,
+                    TotalNetPay = totalNetPay,
+                    TotalDeduction = totalDeduction,
+                    TotalEarningsByComponent = totalEarningsByComponent,
+                    TotalDeductionsByComponent = totalDeductionsByComponent,
+                    NombreBulletins = salariesDuMois.Count()
+                });
+            }
+
+            // Ajouter les mois manquants avec des totaux à zéro
+            for (int i = 1; i <= 12; i++)
+            {
+                if (!totauxMensuels.Any(t => t.Mois == i))
+                {
+                    totauxMensuels.Add(new MonthlySalaryTotals
+                    {
+                        Mois = i,
+                        NomMois = GetNomMois(i),
+                        TotalGrossPay = 0,
+                        TotalNetPay = 0,
+                        TotalDeduction = 0,
+                        TotalEarningsByComponent = new Dictionary<string, decimal>(),
+                        TotalDeductionsByComponent = new Dictionary<string, decimal>(),
+                        NombreBulletins = 0
+                    });
+                }
+            }
+
+            // Trier par mois
+            totauxMensuels = totauxMensuels.OrderBy(t => t.Mois).ToList();
+
+            return new AnnualSalaryTotals
+            {
+                Annee = 0, // Indique "toutes les années"
+                TotauxMensuels = totauxMensuels,
+                TotalAnnuelGrossPay = totauxMensuels.Sum(t => t.TotalGrossPay),
+                TotalAnnuelNetPay = totauxMensuels.Sum(t => t.TotalNetPay),
+                TotalAnnuelDeduction = totauxMensuels.Sum(t => t.TotalDeduction)
+            };
+        }
     }
 }

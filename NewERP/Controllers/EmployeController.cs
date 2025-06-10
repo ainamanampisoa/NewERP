@@ -30,10 +30,7 @@ namespace NewERP.Controllers
         [HttpGet]
         public async Task<IActionResult> Liste(int page = 1, int pageSize = 3)
         {
-            // Récupère la liste complète des employés
-            var employes = await _employeService.GetAllEmployes();
-
-            // Récupère les listes annexes
+            var employes = await _employeService.GetAllEmployes();   
             var departments = await _departmentService.GetAllDepartments();
             var genders = await _genderService.GetAllGenders();
 
@@ -55,7 +52,6 @@ namespace NewERP.Controllers
             ViewBag.Departments = departments;
             ViewBag.Genders = genders;
 
-            // Envoi à la vue la liste paginée d’employés
             return View(paginatedEmployes);
         }
 
@@ -169,6 +165,14 @@ namespace NewERP.Controllers
                         g => (decimal)g.Sum(e => e.Amount)
                     );
 
+            var totalDeductionByComponent = bulletinsList
+                        .SelectMany(s => s.Deductions)
+                        .GroupBy(e => e.SalaryComponent)
+                        .ToDictionary(
+                            g => g.Key,
+                            g => (decimal)g.Sum(e => e.Amount)
+                        );
+
             // Récupérer tous les composants uniques d'earnings pour les colonnes
             var allEarningComponents = bulletinsList
                 .SelectMany(s => s.Earnings)
@@ -177,11 +181,20 @@ namespace NewERP.Controllers
                 .OrderBy(c => c)
                 .ToList();
 
+            var allDeductionComponents = bulletinsList
+                    .SelectMany(s => s.Deductions)
+                    .Select(e => e.SalaryComponent)
+                    .Distinct()
+                    .OrderBy(c => c)
+                    .ToList();
+
             ViewBag.TotalEarnings = totalEarnings;
             ViewBag.TotalDeductions = totalDeductions;
             ViewBag.TotalNetPay = totalNetPay;
             ViewBag.TotalByComponent = totalEarningsByComponent;
-            ViewBag.EarningComponents = allEarningComponents; // Nouveau
+            ViewBag.EarningComponents = allEarningComponents; 
+            ViewBag.DeductionComponents = allDeductionComponents;
+            ViewBag.TotalByDec = totalDeductionByComponent;  
 
             // Pagination
             int totalItems = bulletinsList.Count;
@@ -202,6 +215,38 @@ namespace NewERP.Controllers
             ViewBag.TotalItems = totalItems;
 
             return View("Tableau", paginatedBulletins);
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> ExportCsv()
+        {
+            try
+            {
+                bool result = await _employeService.exportCsv();
+                
+                if (result)
+                {
+                    string filePath = "/home/aina/Documents/Evaluation/CSV/employees.csv";
+                    
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
+                        return File(fileBytes, "text/csv", "employees.csv");
+                    }
+                    else
+                    {
+                        return NotFound("Fichier CSV non trouvé");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Erreur lors de l'export CSV");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erreur serveur: {ex.Message}");
+            }
         }
 
     }

@@ -104,4 +104,5 @@
 /home/aina/Documents/Evaluation/NewERP/NewERP/bin/Debug/net9.0/itextsharp.dll
 /home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/q3cufp405k-9hsvj1wfnv.gz
 /home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/jf3ydino2w-c78bn2nlb3.gz
-/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-wktzzbneyy.gz
+/home/aina/Documents/Evaluation/NewERP/NewERP/obj/Debug/net9.0/compressed/lrvabua8l9-jwbfzsne0q.gz
+/home/aina/Documents/Evaluation/NewERP/NewERP/bin/Debug/net9.0/CsvHelper.dll

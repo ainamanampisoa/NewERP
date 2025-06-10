@@ -38,14 +38,14 @@ namespace NewERP.Controllers
                     .Take(pageSize)
                     .ToList();
 
-                // Récupérer tous les composants uniques d'earnings
+               
                 var allEarningComponents = totauxAnnuels.TotauxMensuels
                     .SelectMany(m => m.TotalEarningsByComponent.Keys)
                     .Distinct()
                     .OrderBy(k => k)
                     .ToList();
 
-                // Récupérer tous les composants uniques de déductions
+            
                 var allDeductionComponents = totauxAnnuels.TotauxMensuels
                     .SelectMany(m => m.TotalDeductionsByComponent.Keys)
                     .Distinct()
@@ -94,8 +94,8 @@ namespace NewERP.Controllers
                 ViewBag.TotalPages = totalPages;
                 ViewBag.PageSize = pageSize;
                 ViewBag.TotalItems = totalItems;
-                ViewBag.EarningComponents = allEarningComponents; // Nouveau
-                ViewBag.DeductionComponents = allDeductionComponents; // Nouveau
+                ViewBag.EarningComponents = allEarningComponents; 
+                ViewBag.DeductionComponents = allDeductionComponents; 
 
                 return View("Tableau");
             }
@@ -125,17 +125,38 @@ namespace NewERP.Controllers
                 var names = await _salaireService.GetSalarySlipNames();
                 var allBulletins = await _salaireService.GetSalarySlipsDetails(names, mois, annee);
 
-                // Convertir en liste pour éviter multiples évaluations
+             
                 var bulletinsList = allBulletins.ToList();
 
-                // Calcul des totaux sur la liste complète
                 decimal totalEarnings = bulletinsList.Sum(slip => slip.GrossPay);
                 decimal totalDeductions = bulletinsList.Sum(slip => slip.TotalDeduction);
                 decimal totalNetPay = bulletinsList.Sum(slip => slip.NetPay);
 
-                 // Récupérer tous les composants uniques d'earnings pour les colonnes
+                var totalEarningsByComponent = bulletinsList
+                    .SelectMany(s => s.Earnings)
+                    .GroupBy(e => e.SalaryComponent)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => (decimal)g.Sum(e => e.Amount)
+                    );
+                
+                var totalDeductionByComponent = bulletinsList
+                    .SelectMany(s => s.Deductions)
+                    .GroupBy(e => e.SalaryComponent)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => (decimal)g.Sum(e => e.Amount)
+                    );
+
                 var allEarningComponents = bulletinsList
                     .SelectMany(s => s.Earnings)
+                    .Select(e => e.SalaryComponent)
+                    .Distinct()
+                    .OrderBy(c => c)
+                    .ToList();
+
+                var allDeductionComponents = bulletinsList
+                    .SelectMany(s => s.Deductions)
                     .Select(e => e.SalaryComponent)
                     .Distinct()
                     .OrderBy(c => c)
@@ -144,7 +165,10 @@ namespace NewERP.Controllers
                 ViewBag.TotalEarnings = totalEarnings;
                 ViewBag.TotalDeductions = totalDeductions;
                 ViewBag.TotalNetPay = totalNetPay;
-                ViewBag.EarningComponents = allEarningComponents; // Nouveau
+                ViewBag.EarningComponents = allEarningComponents; 
+                ViewBag.DeductionComponents = allDeductionComponents;
+                ViewBag.TotalByComponent = totalEarningsByComponent;
+                ViewBag.TotalByDec = totalDeductionByComponent;  
 
                 // Pagination
                 int totalItems = bulletinsList.Count;
@@ -168,14 +192,15 @@ namespace NewERP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Graphe(int annee)
+        public async Task<IActionResult> Graphe(int? annee=null)
         {
             try
             {
-                if(annee == 0){
-                    annee = 2025;
-                }
-                var totauxAnnuels = await _statistiqueService.GetMonthlySalaryTotals(annee);
+                // if(annee == 0){
+                //     annee = 2025;
+                // }
+                // var totauxAnnuels = await _statistiqueService.GetMonthlySalaryTotals(annee);
+                var totauxAnnuels = await _statistiqueService.GetMonthlySalaryTotalsAnnee(annee);
 
 
                 Console.WriteLine($"=== TOTAUX POUR L'ANNÉE {totauxAnnuels.Annee} ===");
