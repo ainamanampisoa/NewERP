@@ -3,7 +3,9 @@ using NewERP.Models;
 using NewERP.Helpers;
 using CsvHelper;
 using System.Globalization;
-using System.IO;
+using Newtonsoft.Json;
+
+
 
 namespace NewERP.Services
 {
@@ -27,12 +29,17 @@ namespace NewERP.Services
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var json = JObject.Parse(responseBody);
+            string json = await response.Content.ReadAsStringAsync();
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<List<Employe>>>(json);
 
-            var data = json["data"].ToObject<List<Employe>>();
-
-            return data;
+            if (apiResponse != null && apiResponse.Data != null)
+            {
+                return apiResponse.Data;
+            }
+            else
+            {
+                return new List<Employe>();
+            }
         }
 
         public async Task<bool> exportCsv()
@@ -85,11 +92,10 @@ namespace NewERP.Services
         //     return response.IsSuccessStatusCode;
         // }
 
-        public async Task<List<Employe>> FiltrerEmployes(DateTime? dateDebut, DateTime? dateFin, string employeeName, string department, string employmentType, string statut,string gender)
+        public async Task<List<Employe>> FiltrerEmployes(DateTime? dateDebut, DateTime? dateFin, string employeeName, string department, string employmentType, string statut, string gender)
         {
             FrappeAuthHelper.AjouterAuthorization(_httpClient);
 
-            // Construction de la condition dynamique (utilise Frappe ERP filters)
             var filters = new List<object>();
 
             if (!string.IsNullOrWhiteSpace(employeeName))
@@ -97,7 +103,7 @@ namespace NewERP.Services
 
             if (!string.IsNullOrWhiteSpace(department))
                 filters.Add(new[] { "department", "=", department });
-            
+
             if (!string.IsNullOrWhiteSpace(gender))
                 filters.Add(new[] { "gender", "=", gender });
 
@@ -113,24 +119,31 @@ namespace NewERP.Services
             if (dateFin.HasValue)
                 filters.Add(new[] { "date_of_joining", "<=", dateFin.Value.ToString("yyyy-MM-dd") });
 
-            string filterJson = Newtonsoft.Json.JsonConvert.SerializeObject(filters);
+            string filterJson = JsonConvert.SerializeObject(filters);
             string fields = "[\"name\",\"employee_name\",\"date_of_birth\",\"gender\",\"date_of_joining\",\"status\",\"department\"]";
+
             string filterJsonEncoded = Uri.EscapeDataString(filterJson);
             string fieldsEncoded = Uri.EscapeDataString(fields);
 
             string url = $"http://erpnext.localhost:8000/api/resource/Employee?fields={fieldsEncoded}&filters={filterJsonEncoded}&limit=0";
-            Console.WriteLine(url);
-            // string url = $"http://erpnext.localhost:8000/api/resource/Employee?fields={fields}&filters={filterJson}";
 
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var json = JObject.Parse(responseBody);
+            string json = await response.Content.ReadAsStringAsync();
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<List<Employe>>>(json);
 
-            var data = json["data"].ToObject<List<Employe>>();
-            return data;
+            if (apiResponse != null && apiResponse.Data != null)
+            {
+                return apiResponse.Data;
+            }
+            else
+            {
+                return new List<Employe>();
+            }
+
         }
+
 
         public async Task<Employe> GetFicheEmployeParId(string id)
         {
@@ -144,11 +157,17 @@ namespace NewERP.Services
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var json = JObject.Parse(responseBody);
+            string json = await response.Content.ReadAsStringAsync();
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<Employe>>(json);
 
-            var data = json["data"].ToObject<Employe>();
-            return data;
+            if (apiResponse != null && apiResponse.Data != null)
+            {
+                return apiResponse.Data;
+            }
+            else
+            {
+                return new Employe();
+            }
         }
 
         // public async Task DeleteEmployee(string name)

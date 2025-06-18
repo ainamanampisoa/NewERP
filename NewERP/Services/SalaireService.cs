@@ -1,16 +1,11 @@
-using Newtonsoft.Json.Linq;
 using NewERP.Models;
 using NewERP.Helpers;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Diagnostics;
-using System.IO;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
-using System.Linq;
+using System.Text;
+
 
 namespace NewERP.Services
 {
@@ -29,18 +24,25 @@ namespace NewERP.Services
 
             string fields = "[\"name\", \"employee\", \"employee_name\", \"start_date\", \"end_date\", \"gross_pay\", \"total_deduction\", \"net_pay\", \"status\"]";
             string filters = $"[[\"employee\", \"=\", \"{employeeId}\"]]";
-
             string url = $"http://erpnext.localhost:8000/api/resource/Salary Slip?fields={Uri.EscapeDataString(fields)}&filters={Uri.EscapeDataString(filters)}&limit=0";
 
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var json = JObject.Parse(responseBody);
+            string json = await response.Content.ReadAsStringAsync();
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<List<SalarySlip>>>(json);
 
-            var salarySlips = json["data"].ToObject<List<SalarySlip>>();
-            return salarySlips;
+            if (apiResponse != null && apiResponse.Data != null)
+            {
+                return apiResponse.Data;
+            }
+            else
+            {
+                return new List<SalarySlip>();
+            }
+
         }
+
 
         public async Task<SalarySlip> GetSalarySlipParNomAsync(string slipName)
         {
@@ -51,11 +53,18 @@ namespace NewERP.Services
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var json = JObject.Parse(responseBody);
+            string json = await response.Content.ReadAsStringAsync();
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<SalarySlip>>(json);
 
-            var slip = json["data"].ToObject<SalarySlip>();
-            return slip;
+            if (apiResponse != null && apiResponse.Data != null)
+            {
+                return apiResponse.Data;
+            }
+            else
+            {
+                return new SalarySlip();
+            }
+
         }
 
         public void ExporterSalarySlipEnPdf(SalarySlip slip)
@@ -212,7 +221,7 @@ namespace NewERP.Services
         public async Task<List<string>> GetSalarySlipNames()
         {
             FrappeAuthHelper.AjouterAuthorization(_httpClient);
-            
+
             // var now = DateTime.Now;
             // var start = new DateTime(now.Year - 10, 1, 1);
             // var end = new DateTime(now.Year + 10, 12, 31);
@@ -296,6 +305,5 @@ namespace NewERP.Services
 
             return salarySlips;
         }
-
     }
 }

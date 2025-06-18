@@ -5,11 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Autres services HttpClient :
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<LoginService>();
-builder.Services.AddHttpClient<EmployeService>();
+builder.Services.AddHttpClient<AleaService>();
 builder.Services.AddHttpClient<DepartmentService>();
 builder.Services.AddHttpClient<GenderService>();
 builder.Services.AddHttpClient<SalaireService>();
 builder.Services.AddHttpClient<StatistiqueService>();
+builder.Services.AddHttpClient<EmployeService>();
 
 builder.Services.AddHttpClient<DataService>(client =>
 {
