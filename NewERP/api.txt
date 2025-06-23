@@ -1,2 +1,219 @@
 secret: cccad3a5b5bf570
 key: 83c15544524c27f
+
+        public async Task<List<SalaryAssignment>> GetRandomSalary(string employe, DateOnly? startDate, DateOnly? finDate, float salaire)
+        {
+            FrappeAuthHelper.AjouterAuthorization(_httpClient);
+            List<SalaryAssignment> assng = new List<SalaryAssignment>();
+
+            string filters = $"[[\"employee\", \"=\", \"{employe}\"]]";
+            string fields = "[\"name\", \"employee\", \"salary_structure\", \"base\", \"currency\", \"company\", \"from_date\"]";
+            string order_by = "order by";
+
+            string url = $"http://erpnext.localhost:8000/api/resource/Salary Structure Assignment?fields={Uri.EscapeDataString(fields)}&filters={Uri.EscapeDataString(filters)}&order_by={Uri.EscapeDataString(order_by)}&limit_page_length=1";
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Erreur lors de l'appel API : {response.StatusCode} - {errorContent}");
+                }
+
+                string json = await response.Content.ReadAsStringAsync();
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<List<SalaryAssignment>>>(json);
+
+                if (apiResponse?.Data == null || apiResponse.Data.Count == 0)
+                {
+                    throw new Exception($"Aucune structure salariale trouvée pour l'employé {employe}");
+                }
+
+                assng = apiResponse.Data;
+
+                float salaireBase = 0;
+                string structure = null;
+                string currency = null;
+                string company = null;
+
+                if (assng.Count > 0)
+                {
+                    structure = assng[0].SalaryStructure;
+                    currency = assng[0].Currency;
+                    company = assng[0].Company;
+                }
+                Console.WriteLine($"Strucutre: {structure}");
+                Console.WriteLine($"Currency: {currency}");
+                Console.WriteLine($"Company: {company}");
+                Console.WriteLine($"Employee: {employe}");
+
+                if (salaire > 0)
+                {
+                    salaireBase = salaire;
+                    Console.WriteLine($"Salaire: {salaireBase}");
+                }
+                else
+                {
+                    SalaryAssignment assignmentReference = null;
+                    DateOnly? latestDate = null;
+
+                    for (int i = 0; i < assng.Count; i++)
+                    {
+                        var a = assng[i];
+                        if (a.FromDate.HasValue)
+                        {
+                            if (latestDate == null || a.FromDate > latestDate)
+                            {
+                                latestDate = a.FromDate;
+                                assignmentReference = a;
+                            }
+                        }
+                    }
+
+                    if (assignmentReference != null)
+                    {
+                        salaireBase = assignmentReference.Base;
+                    }
+                    else
+                    {
+                        throw new Exception($"Impossible de déterminer le salaire de base pour l'employé {employe}");
+                    }
+                }
+
+
+                for (DateOnly currentDate = startDate.Value; currentDate <= finDate.Value; currentDate = currentDate.AddMonths(1))
+                {
+                    bool existeDeja = await VerifierExistenceSalaire(employe, currentDate);
+                    if (!existeDeja)
+                    {
+                        var assignmentModel = new SalaryAssignment
+                        {
+                            SalaryStructure = structure,
+                            Company = company,
+                            Currency = currency,
+                            Base = salaireBase,
+                        };
+
+                        await CreerSalaryStructureAssignment(employe, currentDate, assignmentModel);
+                        Console.WriteLine($"Salary assignment créé pour {currentDate:yyyy-MM-dd}");
+
+                        await CreerSalarySlip(employe, currentDate, assignmentModel);
+                        Console.WriteLine($"Salary slip créé pour {currentDate:yyyy-MM-dd}");
+
+
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Salary assignment déjà existant pour {currentDate:yyyy-MM-dd}, ignoré.");
+                    }
+
+                }
+
+                return assng;
+            }
+            catch (HttpRequestException httpEx)
+            {
+                throw new Exception($"Erreur de réseau lors de l'appel API : {httpEx.Message}", httpEx);
+            }
+        }
+    
+---Explication Alea 2:
+
+Fonctions de récupération de données
+
+1-
+SalarySlipsDetails()
+
+But : Récupère tous les détails des fiches de paie
+Processus :
+
+Obtient la liste des noms de fiches de paie
+Pour chaque nom, fait un appel API pour récupérer les détails complets
+Retourne une liste de SalarySlip avec tous les détails
+
+
+
+2-
+SalarySlipsDetailsByName(string name)
+
+But : Récupère les détails d'une fiche de paie spécifique par son nom
+Utilisation : Quand vous avez besoin des informations d'une seule fiche de paie
+
+3-
+GetAssignmentBySlip(string employeeT, DateOnly dateD)
+
+But : Trouve l'affectation de structure salariale d'un employé à une date donnée
+Utilisation : Lie une fiche de paie à sa structure salariale de base
+
+Fonctions d'annulation
+4-
+cancelSalary(string slipName)
+
+But : Annule une fiche de paie (docstatus = 2)
+Important : N'efface pas, mais marque comme annulée dans ERPNext
+
+5-
+cancelAssignment(string assignmentName)
+
+But : Annule une affectation de structure salariale
+Important : Nécessaire avant de pouvoir supprimer ou modifier
+
+Fonctions de suppression
+6-
+DeleteSalarySlip(string slipName)
+
+But : Supprime définitivement une fiche de paie
+Prérequis : Doit être annulée avant suppression
+
+7-
+DeleteSalaryStructure(string assignmentName)
+
+But : Supprime définitivement une affectation de structure salariale
+Prérequis : Doit être annulée avant suppression
+
+Fonctions de calcul
+
+8-
+ExtraireSalaryInfoPorcent(SalaryAssignment assi, float pourcent, int calcul)
+
+But : Calcule un nouveau salaire basé sur un pourcentage
+Logique :
+
+calcul = 1 : Addition → nouveau = base + (base × pourcentage/100)
+calcul = 0 : Soustraction → nouveau = base - (base × pourcentage/100)
+
+
+Retour : Objet SalaryInfo avec le nouveau montant
+
+Fonction principale de modification
+9-
+valueSalaire(string nameSlip, float pourcent, int calcul)
+
+But : Modifie complètement une fiche de paie existante
+Processus complexe :
+
+Récupère la fiche de paie existante
+Trouve l'affectation de structure correspondante
+Annule la fiche de paie ET l'affectation
+Supprime les deux
+Calcule le nouveau salaire
+Recrée une nouvelle affectation ET une nouvelle fiche de paie
+
+
+
+Fonction de mise à jour conditionnelle
+update(string component, int signe, decimal montant, float pourcent, int calcul)
+
+But : Met à jour les salaires selon des critères spécifiques
+Logique complexe :
+
+Récupère TOUTES les fiches de paie
+Cherche dans les gains (earnings) et déductions le composant spécifié
+Applique un filtre basé sur le montant :
+
+signe = 0 : Employés avec montant inférieur au seuil
+signe = 1 : Employés avec montant supérieur au seuil
+
+
+Pour chaque employé correspondant, applique la modification de pourcentage

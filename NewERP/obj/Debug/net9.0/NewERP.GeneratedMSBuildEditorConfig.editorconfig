@@ -24,6 +24,10 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWxlYS9TYWxhaXJlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/aina/Documents/Evaluation/NewERP/NewERP/Views/Component/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29tcG9uZW50L0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/aina/Documents/Evaluation/NewERP/NewERP/Views/Data/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRGF0YS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

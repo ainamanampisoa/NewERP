@@ -11,6 +11,7 @@ builder.Services.AddHttpClient<GenderService>();
 builder.Services.AddHttpClient<SalaireService>();
 builder.Services.AddHttpClient<StatistiqueService>();
 builder.Services.AddHttpClient<EmployeService>();
+builder.Services.AddHttpClient<ComponentService>();
 
 builder.Services.AddHttpClient<DataService>(client =>
 {

@@ -20,7 +20,7 @@ namespace NewERP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Tableau(int annee, int page = 1, int pageSize = 3)
+        public async Task<IActionResult> Tableau(int annee, int page = 1, int pageSize = 12)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace NewERP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int? mois, int? annee, int page = 1, int pageSize = 3)
+        public async Task<IActionResult> Details(int? mois, int? annee, int page = 1, int pageSize = 12)
         {
                 var names = await _salaireService.GetSalarySlipNames();
                 var allBulletins = await _salaireService.GetSalarySlipsDetails(names, mois, annee);

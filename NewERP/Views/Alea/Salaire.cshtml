@@ -1,3 +1,4 @@
+@using NewERP.Models
 @model List<NewERP.Models.Employe>
 
 @{
@@ -7,6 +8,26 @@
 
 @section Styles {
     <link href="~/css/fournisseurs.css" rel="stylesheet" />
+}
+
+@{
+    var components = ViewBag.Components as List<SalaryComponent>;
+}
+
+
+@if (ViewBag.ConfirmationMessage != null)
+{
+    <div class="fournisseurs-container alert alert-success">
+        @ViewBag.ConfirmationMessage
+    </div>
+}
+
+
+@if (ViewBag.Succes != null)
+{
+    <div class="fournisseurs-container alert alert-success">
+        <i class="fas fa-check-circle"></i> @ViewBag.Succes
+    </div>
 }
 
 <div class="fournisseurs-container">
@@ -66,39 +87,43 @@
         <i class="fas fa-users"></i> Modification salaire des employés
     </h1>
 
-    <form method="get" asp-controller="Alea" asp-action="Generer" class="fournisseurs-form">
+    <form method="get" asp-controller="Alea" asp-action="Update" class="fournisseurs-form">
         <div class="form-grid">
-
-            <div class="form-group">
-                <label>Employe</label>
-                <div class="custom-select-container">
-                    <select name="employe" class="fournisseurs-select">
-                        <option value="">-- Employe --</option>
-                        @foreach (var emp in Model)
-                        {
-                            <option value="@emp.name">@emp.employee_name</option>
-                        }
-                    </select>
-                </div>
-            </div>
-
             <div class="form-group">
                 <label>Éléments de salaire</label>
                 <div class="custom-select-container">
-                    <select name="elementSalaire" class="fournisseurs-select">
-                        <option value="">-- Éléments de salaire --</option>
-                        <!-- Tu peux adapter le contenu ici selon tes besoins -->
-                        <option value="base">Salaire de base</option>
-                        <option value="prime">Prime</option>
-                        <option value="bonus">Bonus</option>
-                    </select>
+                <select name="component" class="fournisseurs-select">
+                    <option value="">-- Composant --</option>
+                    @if (components != null)
+                    {
+                        foreach (var c in components)
+                        {
+                            <option value="@c.Name">@c.Name</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="">Aucun composant disponible</option>
+                    }
+                </select>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Pourcentage</label>
                 <div class="custom-select-container">
-                    <input type="number" class="fournisseurs-select" name="pourcentage" />
+                    <input type="number" class="fournisseurs-select" name="pourcent" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Filtres</label>
+                <div class="custom-select-container">
+                    <select name="signe" class="fournisseurs-select">
+                        <option value="">-- Choix --</option>
+                        <option value="0">Inferieur</option>
+                        <option value="1">Superieur</option>
+                    </select>
                 </div>
             </div>
 
@@ -109,6 +134,17 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label>Signe</label>
+                <div class="custom-select-container">
+                    <select name="calcul" class="fournisseurs-select">
+                        <option value="">-- Choix --</option>
+                        <option value="0">Soustraction</option>
+                        <option value="1">Addition</option>
+                    </select>
+                </div>
+            </div>
+    
             <div class="form-group button-container">
                 <button class="fournisseurs-button primary compact">
                     <i class="fas fa-sliders-h"></i>Valider

@@ -30,11 +30,4 @@ namespace NewERP.Models
 
     }
     
-    public class InsertionResult
-    {
-        public bool Success { get; set; }
-        public string Message { get; set; }
-        public string CreatedId { get; set; }
-        public string ErrorDetails { get; set; }
-    }
 }

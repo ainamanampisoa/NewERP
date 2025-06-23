@@ -783,4 +783,87 @@
     color: #6c757d;
 }
 
+.fournisseurs-container.alert {
+    padding: 1.25rem 1.5rem;
+    border-radius: 14px;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    border-left: 6px solid;
+    transition: var(--transition);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.fournisseurs-container.alert-success {
+    background-color: rgba(223, 236, 228, 0.9);
+    color: #166534;
+    border-left-color: #22c55e;
+}
+
+.fournisseurs-container.alert-danger {
+    background-color: rgba(254, 226, 226, 0.9);
+    color: #991b1b;
+    border-left-color: #ef4444;
+}
+
+.fournisseurs-container.alert ul {
+    margin-top: 0.75rem;
+    padding-left: 1.5rem;
+}
+
+.fournisseurs-container.alert li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.fournisseurs-container.alert {
+    padding: 1.25rem 1.5rem;
+    border-radius: 14px;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    border-left: 6px solid;
+    transition: var(--transition);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* SUCCÈS */
+.fournisseurs-container.alert-success {
+    background-color: #e6f9f0;
+    color: #166534;
+    border-left-color: #22c55e;
+}
+
+/* ERREUR */
+.fournisseurs-container.alert-danger {
+    background-color: #fdeaea;
+    color: #b91c1c;
+    border-left-color: #ef4444;
+}
+
+/* AVERTISSEMENT */
+.fournisseurs-container.alert-warning {
+    background-color: #fff8e1;
+    color: #92400e;
+    border-left-color: #facc15;
+}
+
+/* INFO */
+.fournisseurs-container.alert-info {
+    background-color: #eef6fc;
+    color: #1e3a8a;
+    border-left-color: #60a5fa;
+}
+
+/* UL et LI pour contenu plus lisible */
+.fournisseurs-container.alert ul {
+    margin-top: 0.75rem;
+    padding-left: 1.5rem;
+}
+
+.fournisseurs-container.alert li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
 

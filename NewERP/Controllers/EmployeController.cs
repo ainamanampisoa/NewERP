@@ -28,7 +28,7 @@ namespace NewERP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Liste(int page = 1, int pageSize = 3)
+        public async Task<IActionResult> Liste(int page = 1, int pageSize = 12)
         {
             var employes = await _employeService.GetAllEmployes();   
             var departments = await _departmentService.GetAllDepartments();
@@ -65,7 +65,7 @@ namespace NewERP.Controllers
             string statut,
             string gender,
             int page = 1,
-            int pageSize = 3)
+            int pageSize = 12)
         {
             var employes = await _employeService.FiltrerEmployes(datej1, datej2, employee_name, department, employmentType, statut, gender);
             var departments = await _departmentService.GetAllDepartments();
@@ -102,7 +102,7 @@ namespace NewERP.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Fiche(string id, int page = 1, int pageSize = 3)
+        public async Task<IActionResult> Fiche(string id, int page = 1, int pageSize = 12)
         {
             var fiche = await _employeService.GetFicheEmployeParId(id);
             var fichepaie = await _salaireService.GetSalarySlipsParEmployeId(id);
@@ -144,7 +144,7 @@ namespace NewERP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Tableau(int? mois, int? annee, int page = 1, int pageSize = 3)
+        public async Task<IActionResult> Tableau(int? mois, int? annee, int page = 1, int pageSize = 12)
         {
             var names = await _salaireService.GetSalarySlipNames();
             var allBulletins = await _salaireService.GetSalarySlipsDetails(names, mois, annee);
